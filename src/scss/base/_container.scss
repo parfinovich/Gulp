@@ -1,0 +1,30 @@
+@use '../utils' as *;
+
+$container-max-width: 1430px;
+$container-padding: clamp(10px, 2vw, 30px);
+
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: $container-padding;
+
+  @include respond(sm) {
+    max-width: 576px;
+  }
+
+  @include respond(md) {
+    max-width: 768px;
+  }
+
+  @include respond(lg) {
+    max-width: 1024px;
+  }
+
+  @include respond(xl) {
+    max-width: 1280px;
+  }
+
+  @include respond(xxl) {
+    max-width: $container-max-width;
+  }
+}

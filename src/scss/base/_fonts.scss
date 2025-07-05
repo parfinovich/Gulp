@@ -1,0 +1,27 @@
+@use "sass:string";
+
+@mixin font($font_name, $file_name, $weight, $style) {
+  @font-face {
+    font-family: "#{$font_name}";
+    src: url("../fonts/#{$file_name}.woff2") format("woff2"),
+         url("../fonts/#{$file_name}.woff") format("woff");
+    font-weight: $weight;
+    font-style: $style;
+    font-display: swap;
+
+    @if string.index(string.to-lower-case($file_name), "variable") {
+      font-optical-sizing: auto;
+      font-variation-settings: "slnt" 0;
+    }
+  }
+}
+
+@include font("MasqueradeToyStoreStuff-Regular", "MasqueradeToyStoreStuff-Regular", 400, normal);
+
+body {
+  font-family: "Masquerade Toy Store Stuff", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-variation-settings: "slnt" 0;
+}

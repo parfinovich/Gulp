@@ -1,0 +1,63 @@
+@use "sass:string";
+@use "../base/_generated-ratios" as *;
+
+@layer reset, lazy, ratios;
+
+@layer reset {
+	img[src$=".svg"],
+	picture img[src$=".svg"] {
+		opacity: 1 !important;
+		filter: none !important;
+		transform: none;
+	}
+
+	img:not(.logo),
+	picture img:not(.logo) {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	object-fit: cover;
+	will-change: opacity, filter, transform;
+	opacity: 0;
+	filter: blur(20px);
+	transform: scale(0.98);
+	transition:
+		opacity 0.5s ease,
+		filter 0.5s ease,
+		transform 0.4s ease;
+	}
+	img.logo {
+		max-width: none !important;
+		opacity: 1;
+		filter: none;
+		transform: none;
+		object-fit: contain;
+	}
+}
+
+@layer lazy {
+	img.loading:not(.logo),
+	picture img.loading:not(.logo) {
+		opacity: 0.4;
+		filter: blur(10px);
+		transform: scale(0.99);
+	}
+
+	img.loaded:not(.logo),
+	picture img.loaded:not(.logo) {
+		opacity: 1;
+		filter: none;
+		transform: scale(1);
+	}
+}
+
+@layer ratios {
+	@each $size in $img-ratios {
+		$splitIndex: string.index($size, "x");
+		$w: string.slice($size, 1, $splitIndex - 1);
+		$h: string.slice($size, $splitIndex + 1);
+		.img-#{$size}:not(.logo) {
+		aspect-ratio: string.unquote($w) / string.unquote($h);
+		}
+	}
+}

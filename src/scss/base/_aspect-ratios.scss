@@ -1,0 +1,15 @@
+@use "sass:string";
+@use "../base/_generated-ratios" as *;
+
+@mixin aspect-ratio($w, $h) {
+  aspect-ratio: ($w / $h);
+}
+
+@each $size in $img-ratios {
+	$splitIndex: string.index($size, "x");
+	$w: string.slice($size, 1, $splitIndex - 1);
+	$h: string.slice($size, $splitIndex + 1);
+	.img-#{$size} {
+		@include aspect-ratio(string.unquote($w), string.unquote($h));
+	}
+}
