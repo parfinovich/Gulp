@@ -39,7 +39,6 @@ export const imagesEnhanceHTML = () => {
           normalizedPath.includes(folder)
         );
 
-        // Если нужно пропустить оборачивание в <picture>
         if (shouldSkipPicture) {
           $img.attr('decoding', 'async');
           $img.attr('fetchpriority', isLazy ? 'low' : 'high');
@@ -51,7 +50,7 @@ export const imagesEnhanceHTML = () => {
           return; // оставить как есть
         }
 
-        // Подготовка srcset
+        // Ready for srcset and sizes attributes
         const srcsetParts = [];
         allWidths.forEach(size => {
           const candidate = srcAttr.replace(/\.(jpg|jpeg|png)$/i, ext => `-${size}${ext}`);
@@ -105,7 +104,7 @@ export const imagesEnhanceHTML = () => {
         const picture = `<picture>${webpSource}${imgTag}</picture>`;
         $img.replaceWith(picture);
 
-        // preload только для первого обычного изображения
+        // preload
         if (!preloadAdded && !isLazy && srcsetParts.length) {
           $('head').prepend(
             `<link rel="preload" as="image" href="${srcAttr}" imagesrcset="${srcsetParts.join(', ')}" imagesizes="${sizesAttr.replace(/^sizes="/, '').replace(/"$/, '')}">`

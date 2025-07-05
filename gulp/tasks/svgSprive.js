@@ -14,8 +14,8 @@ export const svgSprive = () => {
     .pipe(svgSprite({
       mode: {
         stack: {
-          sprite: '../icons/icons.svg', // относительный путь от dist/img
-          example: false                // пример отключён (включи true для демки)
+          sprite: '../icons/icons.svg',
+          example: false
         }
       },
       shape: {

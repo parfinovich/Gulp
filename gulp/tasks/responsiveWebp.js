@@ -19,12 +19,12 @@ export const responsiveWebp = () => {
       }
     }))
     .pipe(responsive(responsiveWebpConfig, {
-      quality: 80,                   // WebP сжатие
-      progressive: true,             // JPEG fallback (если будет)
-      withMetadata: false,           // без EXIF-данных
-      errorOnUnusedConfig: false,    // не падать, если нет соответствия
-      errorOnUnusedImage: false,     // не ругаться на лишние картинки
-      errorOnEnlargement: false      // не увеличивать
+      quality: 80,
+      progressive: true,
+      withMetadata: false,
+      errorOnUnusedConfig: false,
+      errorOnUnusedImage: false,
+      errorOnEnlargement: false
     }))
     .pipe(app.gulp.dest(app.path.build.images));
 };

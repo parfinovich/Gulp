@@ -7,7 +7,7 @@ import groupCssMediaQueries from 'gulp-group-css-media-queries';
 import log from 'fancy-log';
 import beep from 'beepbeep';
 import postcss from 'gulp-postcss';
-import postcssConfig from '../../postcss.config.js'; // ⚠️ путь может отличаться
+import postcssConfig from '../../postcss.config.js';
 
 const sass = gulpSass(dartSass);
 
@@ -24,7 +24,7 @@ export const scss = () => {
     .pipe(app.plugins.replace(/@img\//g, '../img/'))
     .pipe(sass({ outputStyle: 'expanded' }))
     .pipe(app.plugins.if(app.isBuild, groupCssMediaQueries()))
-    .pipe(postcss(postcssConfig.plugins)) // ✅ заменили webpcss на PostCSS
+    .pipe(postcss(postcssConfig.plugins))
 
     .pipe(app.plugins.if(app.isBuild, autoPrefixer({
 		grid: true,

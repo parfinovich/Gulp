@@ -5,8 +5,8 @@ import responsiveConfig from '../config/responsive-config.js';
 
 export const responsiveImages = () => {
   return app.gulp.src([
-    'src/img/**/*.{jpg,jpeg,png}',  // включить все изображения
-    '!src/img/icons/**',            // исключить служебные
+    'src/img/**/*.{jpg,jpeg,png}',  // Enable responsive images for these formats
+    '!src/img/icons/**',
     '!src/img/logos/**',
     '!src/img/svg/**',
     '!src/img/decor/**'
@@ -19,12 +19,12 @@ export const responsiveImages = () => {
       }
     }))
     .pipe(responsive(responsiveConfig, {
-      quality: 80,               // компромисс между размером и качеством
-      progressive: true,         // прогрессивная загрузка JPEG
-      withMetadata: false,       // без EXIF-данных
+      quality: 80,
+      progressive: true,
+      withMetadata: false,
       errorOnUnusedConfig: false,
       errorOnUnusedImage: false,
-      errorOnEnlargement: false  // не увеличивать картинки сверх исходного
+      errorOnEnlargement: false
     }))
     .pipe(app.gulp.dest(app.path.build.images));
 };

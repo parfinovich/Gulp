@@ -4,7 +4,7 @@ import glob from 'glob';
 import log from 'fancy-log';
 
 export const generateRatios = (done) => {
-  // Ищем все HTML-файлы, кроме тех, что в исключённых папках
+  // Search for all HTML files in the src directory, excluding specific folders
   const files = glob.sync('src/**/*.html', {
     ignore: [
       'src/**/icons/**',

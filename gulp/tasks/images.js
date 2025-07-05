@@ -13,10 +13,10 @@ export const images = () => {
       }
     }))
 
-    // Обработка только новых файлов
+    // New images only
     .pipe(app.plugins.newer(app.path.build.images))
 
-    // Генерация WebP
+    // Generate WebP
     .pipe(webp())
     .pipe(app.gulp.dest(app.path.build.images))
 
@@ -24,7 +24,7 @@ export const images = () => {
     .pipe(app.gulp.src(app.path.src.images))
     .pipe(app.plugins.newer(app.path.build.images))
 
-    // Оптимизация оригинальных изображений
+    // Optimize images
     .pipe(
       app.plugins.if(
         app.isBuild,
@@ -39,10 +39,10 @@ export const images = () => {
     )
     .pipe(app.gulp.dest(app.path.build.images))
 
-    // SVG копируем отдельно всегда
+    // SVG copy
     .pipe(app.gulp.src(app.path.src.svg))
     .pipe(app.gulp.dest(app.path.build.images))
 
-    // Обновление браузера
+    // Reload browser
     .pipe(app.plugins.browserSync.stream());
 };

@@ -3,7 +3,7 @@ import beep from 'beepbeep';
 import log from 'fancy-log';
 import fs from 'fs';
 
-// Проверка наличия входных шрифтов
+// Search for the source and destination folders
 const srcFolder = 'src/fonts';
 const distFolder = 'dist/fonts';
 
