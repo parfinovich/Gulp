@@ -1,3 +1,7 @@
+@use "sass:color";
+@use "sass:map";
+@use "variables" as *;
+
 .observe {
 	opacity: 0;
 	transform: translateY(30px);
@@ -50,7 +54,7 @@ img.lazy.loaded {
 	}
 
 	&:hover {
-		background-color: color.adjust($color-gold, $lightness: -10%);
+		background-color: color.scale(map.get($colors, 'accent'), $lightness: -10%);
 	}
 }
 

@@ -15,7 +15,8 @@ export const js = () => {
       mode: app.isBuild ? 'production' : 'development',
       devtool: app.isDev ? 'source-map' : false,
       output: {
-        filename: 'app.min.js'
+        filename: 'app.min.js',
+        clean: true
       },
       optimization: {
         minimize: app.isBuild
@@ -28,11 +29,37 @@ export const js = () => {
             use: {
               loader: 'babel-loader',
               options: {
-                presets: ['@babel/preset-env']
+                presets: [
+                  ['@babel/preset-env', {
+                    targets: {
+                      browsers: ['last 2 versions', 'ie >= 11']
+                    }
+                  }]
+                ]
+              }
+            }
+          },
+          {
+            test: /\.ts$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                presets: [
+                  ['@babel/preset-env', {
+                    targets: {
+                      browsers: ['last 2 versions', 'ie >= 11']
+                    }
+                  }],
+                  '@babel/preset-typescript'
+                ]
               }
             }
           }
         ]
+      },
+      resolve: {
+        extensions: ['.js', '.ts', '.json']
       }
     }))
     .pipe(app.gulp.dest(app.path.build.js, { sourcemaps: app.isDev }))

@@ -1,23 +1,179 @@
-@use "breakpoints" as *;
+@use "../base/variables" as *;
+@use "sass:map";
+@use "sass:math";
 
+// Modern responsive mixins using the new breakpoint system
+@mixin respond-to($breakpoint) {
+	$bp-value: map.get($breakpoints, $breakpoint);
+	@if $bp-value {
+		@media (min-width: $bp-value) {
+			@content;
+		}
+	} @else {
+		@warn "Breakpoint '#{$breakpoint}' not found in $breakpoints map";
+	}
+}
+
+@mixin respond-between($min, $max) {
+	$min-value: map.get($breakpoints, $min);
+	$max-value: map.get($breakpoints, $max);
+	@if $min-value and $max-value {
+		$max-calc: $max-value - 1px;
+		@media (min-width: $min-value) and (max-width: #{$max-calc}) {
+			@content;
+		}
+	}
+}
+
+@mixin respond-down($breakpoint) {
+	$bp-value: map.get($breakpoints, $breakpoint);
+	@if $bp-value {
+		$bp-calc: $bp-value - 1px;
+		@media (max-width: #{$bp-calc}) {
+			@content;
+		}
+	}
+}
+
+// Aspect ratio mixin with modern CSS support
+@mixin aspect-ratio($w, $h: null) {
+	@if $h {
+		aspect-ratio: math.div($w, $h);
+	} @else {
+		aspect-ratio: $w;
+	}
+	
+	// Fallback for older browsers
+	@supports not (aspect-ratio: 1) {
+		&::before {
+			content: '';
+			display: block;
+			width: 100%;
+			padding-top: if($h, math.percentage(math.div($h, $w)), math.percentage(math.div(1, $w)));
+		}
+		
+		& > * {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+// Spacing utilities
+@mixin margin($size) {
+	$value: map.get($spacing, $size);
+	@if $value {
+		margin: $value;
+	} @else {
+		margin: $size;
+	}
+}
+
+@mixin padding($size) {
+	$value: map.get($spacing, $size);
+	@if $value {
+		padding: $value;
+	} @else {
+		padding: $size;
+	}
+}
+
+// Font size utility
+@mixin font-size($size) {
+	$value: map.get($font-sizes, $size);
+	@if $value {
+		font-size: $value;
+	} @else {
+		font-size: $size;
+	}
+}
+
+// Color utility
+@mixin color($name, $variant: null) {
+	$color: map.get($colors, $name);
+	@if $color {
+		@if $variant {
+			color: adjust-color($color, $lightness: $variant);
+		} @else {
+			color: $color;
+		}
+	} @else {
+		color: $name;
+	}
+}
+
+// Background color utility
+@mixin bg-color($name, $variant: null) {
+	$color: map.get($colors, $name);
+	@if $color {
+		@if $variant {
+			background-color: adjust-color($color, $lightness: $variant);
+		} @else {
+			background-color: $color;
+		}
+	} @else {
+		background-color: $name;
+	}
+}
+
+// Z-index utility
+@mixin z-index($level) {
+	$value: map.get($z-indexes, $level);
+	@if $value {
+		z-index: $value;
+	} @else {
+		z-index: $level;
+	}
+}
+
+// Flexbox utilities
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin flex-between {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+// Grid utilities
+@mixin grid($columns: 1, $gap: map.get($spacing, 4)) {
+	display: grid;
+	grid-template-columns: repeat($columns, 1fr);
+	gap: $gap;
+}
+
+// Visually hidden utility
+@mixin visually-hidden {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
+// Transition utility
+@mixin transition($properties: all, $duration: 0.3s, $timing: ease-in-out) {
+	transition: $properties $duration $timing;
+}
+
+// Legacy compatibility - старые миксины для обратной совместимости
 @mixin respond($breakpoint) {
-	@if $breakpoint == xs {
-		@media (min-width: $breakpoint-xs) { @content; }
-	} @else if $breakpoint == sm {
-		@media (min-width: $breakpoint-sm) { @content; }
-	} @else if $breakpoint == md {
-		@media (min-width: $breakpoint-md) { @content; }
-	} @else if $breakpoint == lg {
-		@media (min-width: $breakpoint-lg) { @content; }
-	} @else if $breakpoint == xl {
-		@media (min-width: $breakpoint-xl) { @content; }
-	} @else if $breakpoint == xxl {
-		@media (min-width: $breakpoint-xxl) { @content; }
-	} @else if $breakpoint == 4k {
-		@media (min-width: $breakpoint-4k) { @content; }
+	@include respond-to($breakpoint) {
+		@content;
 	}
 }
 
 @mixin ratio($w, $h) {
-    aspect-ratio: $w / $h;
+	@include aspect-ratio($w, $h);
 }

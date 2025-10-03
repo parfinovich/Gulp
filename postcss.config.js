@@ -1,7 +1,12 @@
-import imageSetPolyfill from 'postcss-image-set-polyfill';
+import autoprefixer from 'autoprefixer';
 
-export default {
+const config = {
 	plugins: [
-		imageSetPolyfill()
+		autoprefixer({
+			grid: true,
+			overrideBrowserslist: ['last 2 versions', '> 1%', 'ie >= 11']
+		})
 	]
 };
+
+export default config;

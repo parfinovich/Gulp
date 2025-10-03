@@ -33,26 +33,52 @@ import { ftp } from "./gulp/tasks/ftp.js";
 
 function watcher() {
     gulp.watch(path.watch.files, copy);
-    gulp.watch(path.watch.html, gulp.series(generateRatios, html, imagesEnhanceHTML));
+    gulp.watch(path.watch.html, gulp.series(html, imagesEnhanceHTML));
     gulp.watch(path.watch.scss, gulp.series(lintSCSS, scss));
     gulp.watch(path.watch.js, js);
     gulp.watch(path.watch.images, images);
 }
 
-export { svgSprive };
+// Exported individual tasks
+export { svgSprive, validateHTML, hintHTML, lintSCSS };
 
-export { validateHTML };
+// Task groups
+const setupTasks = gulp.series(generateRatios, generateScssIndex, reset);
+const fontTasks = gulp.series(convertFonts, fontsStyle);
+const faviconTasks = gulp.series(generateFavicon, injectFaviconMarkups);
 
-export { hintHTML };
+// Core build tasks (without duplicated responsive tasks)
+const coreTasks = gulp.parallel(copy, html, scss, js, images);
+const responsiveTasks = gulp.parallel(responsiveImages, responsiveWebp);
 
-const fonts = gulp.series(convertFonts, fontsStyle);
+// Main task sequences
+const mainTasks = gulp.series(
+    fontTasks, 
+    coreTasks,
+    responsiveTasks,
+    imagesEnhanceHTML
+);
 
-const mainTasks = gulp.series(fonts, gulp.parallel(copy, html, scss, js, images, responsiveImages, responsiveWebp), imagesEnhanceHTML);
+// Development workflow
+const dev = gulp.series(
+    setupTasks,
+    fontTasks,
+    faviconTasks,
+    coreTasks,
+    gulp.parallel(watcher, server)
+);
 
-const dev = gulp.series(generateRatios, generateScssIndex, reset, convertFonts, fontsStyle, generateFavicon, injectFaviconMarkups, mainTasks, gulp.parallel(watcher, server));
-const build = gulp.series(generateRatios, generateScssIndex, reset, convertFonts, fontsStyle, generateFavicon, injectFaviconMarkups, mainTasks);
-const deployZIP = gulp.series(reset, mainTasks, zip);
-const deployFTP = gulp.series(reset, mainTasks, ftp);
+// Production build
+const build = gulp.series(
+    setupTasks,
+    fontTasks,
+    faviconTasks,
+    mainTasks
+);
+
+// Deployment tasks
+const deployZIP = gulp.series(build, zip);
+const deployFTP = gulp.series(build, ftp);
 
 export { dev };
 export { build };
