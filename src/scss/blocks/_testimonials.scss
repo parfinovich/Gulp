@@ -143,12 +143,12 @@
   }
 
     &__slider {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-    overflow-y: visible;
-    padding: 1.5rem 0 2rem 0;
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      overflow-y: visible;
+      padding: 1.5rem 0 2rem 0;
 
     @include respond-down('md') {
       padding: 1rem 0 1.5rem 0;
@@ -285,6 +285,7 @@
 }
 
 // Карточка отзыва
+// Карточка отзыва
 .testimonial-card {
   background-color: map.get($colors, 'background'); // Белый фон
   border-radius: 16px;
@@ -294,11 +295,11 @@
   gap: 1.5rem;
   min-height: 280px;
   height: 100%;
-  width: 100%;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
   @include transition(all, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.08);
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.08);
 
   @include respond-down('md') {
@@ -419,7 +420,8 @@
   }
 }
 
-// Переопределение для Swiper контейнера
+// Переопределение для Swiper контейнера — даём Swiper рассчитывать ширины,
+// но защищаем карточки от переполнения
 .testimonials__slider.swiper {
   width: 100%;
   max-width: 100%;
@@ -432,17 +434,58 @@
     box-sizing: border-box;
     height: auto;
     flex-shrink: 0;
+    flex-basis: auto;
+    width: auto;
+    max-width: 100%;
   }
 }
 
-// Жесткое ограничение ширины слайдов для перекрытия inline-стилей
-.testimonials__slider .swiper-slide[style] {
-  width: 100% !important;
-  max-width: 100% !important;
-  
-  @media (min-width: 768px) {
-    width: 50% !important;
-    max-width: 50% !important;
+.testimonials__slider {
+  .swiper-slide {
+    /* позволяем Swiper устанавливать ширину; ограничиваем максимум */
+    width: auto;
+    max-width: 100%;
   }
 }
 
+/* Ограничение ширины слайдов и карточек на мобильных (топ-левел) */
+@media (max-width: 767.98px) {
+  /* Пусть Swiper управляет inline-width; ограничим max-width, чтобы не выходило за экран */
+  .testimonials__slider {
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    left: auto;
+    right: auto;
+    margin-left: 0;
+    margin-right: 0;
+    overflow: hidden;
+  }
+
+  .testimonials__slider .swiper-slide,
+  .testimonial-card {
+    min-width: 0;
+    max-width: 100% !important;
+    /* Принудительное ограничение inline-стилей Swiper на мобильных — безопасная
+       мера против runaway-width. Используем !important, чтобы переопределить
+       возможные inline-значения, которые приводят к тысячам пикселей. */
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* Гарантируем, что слайды не будут расширять контейнеры через overflow */
+  .testimonials__slider .swiper-slide {
+    overflow: hidden;
+  }
+}
+
+/* На десктопе (>=768px) фиксируем ширину слайдов так, чтобы помещалось ровно 2 карточки
+   Учитываем gap (spaceBetween) = 32px в настройках Swiper */
+@media (min-width: 768px) {
+  .testimonials__slider .swiper-slide,
+  .testimonial-card {
+    width: calc((100% - 32px) / 2) !important;
+    max-width: calc((100% - 32px) / 2) !important;
+    box-sizing: border-box;
+  }
+}

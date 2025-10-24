@@ -34,10 +34,15 @@ window.addEventListener('DOMContentLoaded', () => {
     topButton();
     setRealVH();
     handleHeaderScroll();
-    initTestimonialsSlider();
+    // initTestimonialsSlider(); // УБРАНО отсюда!
     initProgressBar();
     initHeroParallax();
     initFaqAccordion();
     initContactForm();
     initActiveNav();
+});
+
+// ГАРАНТИРУЕМ запуск слайдера только после полной загрузки страницы и всех стилей/картинок
+window.addEventListener('load', () => {
+    initTestimonialsSlider();
 });
