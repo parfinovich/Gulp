@@ -1,15 +1,80 @@
 @use "sass:color";
 @use "sass:map";
 @use "variables" as *;
+@use "../utils/mixins" as *;
 
+// Базовые стили для body
+body {
+	@include text-body; // Manrope regular 18px
+	color: map.get($colors, 'text'); // #4D4D4D
+	background-color: map.get($colors, 'background'); // #FFFFFF
+
+	&.no-scroll {
+		overflow: hidden;
+	}
+}
+
+// Улучшенная доступность и UX
+*:focus-visible {
+	outline: 3px solid map.get($colors, 'primary');
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+
+// Убираем outline для мыши, оставляем для клавиатуры
+*:focus:not(:focus-visible) {
+	outline: none;
+}
+
+// Респект для пользователей с prefers-reduced-motion
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+// Плавная прокрутка
+html {
+	scroll-behavior: smooth;
+	
+	@media (prefers-reduced-motion: reduce) {
+		scroll-behavior: auto;
+	}
+}
+
+// Стили для заголовков
+h1, .h1 {
+	color: map.get($colors, 'text');
+	@include heading-main; // DM Serif Display regular 64px
+}
+
+h2, .h2, h3, .h3 {
+	color: map.get($colors, 'text');
+	@include heading-product; // Cormorant Garamond medium 32px, line-height 120%
+}
+
+// Улучшенные observe анимации с stagger эффектом
 .observe {
 	opacity: 0;
 	transform: translateY(30px);
-	transition: opacity 0.6s ease, transform 0.6s ease;
+	transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+	            transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 	&.visible {
 		opacity: 1;
 		transform: translateY(0);
+	}
+	
+	// Stagger эффект для множественных элементов
+	@for $i from 1 through 10 {
+		&:nth-child(#{$i}) {
+			transition-delay: #{$i * 0.1}s;
+		}
 	}
 }
 
@@ -24,37 +89,57 @@ img.lazy.loaded {
 
 .scroll-top {
 	position: fixed;
-	bottom: 32px; // rem(32)
-	right: 32px; // rem(32)
-	width: 48px; // rem(48)
-	height: 48px; // rem(48)
-	background-color: blue;
-	color: black;
+	bottom: 32px;
+	right: 32px;
+	width: 56px;
+	height: 56px;
+	background: linear-gradient(135deg, map.get($colors, 'primary'), map.get($colors, 'primary-dark'));
+	color: map.get($colors, 'background');
 	border: none;
 	border-radius: 50%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 24px; // rem(24)
 	cursor: pointer;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 4px 20px rgba(map.get($colors, 'primary-dark'), 0.3);
 	opacity: 0;
 	visibility: hidden;
-	transition: opacity 0.3s ease, visibility 0.3s ease;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	z-index: map.get($z-indexes, 'fixed');
 
 	&.visible {
 		opacity: 1;
 		visibility: visible;
+		transform: translateY(0);
+	}
+	
+	&:not(.visible) {
+		transform: translateY(100px);
 	}
 
 	svg {
-		width: 20px; // rem(20);
-		height: 20px; // rem(20);
-		fill: currentColor;
+		width: 24px;
+		height: 24px;
+		fill: none;
+		
+		.cls-1 {
+			stroke: map.get($colors, 'background'); // Белый цвет
+		}
 	}
 
 	&:hover {
-		background-color: color.scale(map.get($colors, 'accent'), $lightness: -10%);
+		transform: translateY(-4px);
+		box-shadow: 0 8px 30px rgba(map.get($colors, 'primary-dark'), 0.4);
+	}
+	
+	&:active {
+		transform: translateY(-2px);
+	}
+	
+	// Accessibility
+	&:focus-visible {
+		outline: 3px solid map.get($colors, 'background');
+		outline-offset: 3px;
 	}
 }
 
@@ -69,3 +154,10 @@ img.lazy.loaded {
 	white-space: nowrap;
 	border: 0;
 }
+
+// Улучшение контраста для accessibility
+::selection {
+	background-color: map.get($colors, 'primary');
+	color: map.get($colors, 'background');
+}
+

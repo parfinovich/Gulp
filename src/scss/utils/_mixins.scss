@@ -10,6 +10,7 @@
 			@content;
 		}
 	} @else {
+		// stylelint-disable-next-line at-rule-no-unknown
 		@warn "Breakpoint '#{$breakpoint}' not found in $breakpoints map";
 	}
 }
@@ -176,4 +177,175 @@
 
 @mixin ratio($w, $h) {
 	@include aspect-ratio($w, $h);
+}
+
+// Typography mixins
+// Основные заголовки - DM Serif Display regular 6.5rem (104px) с адаптивными размерами
+@mixin heading-main {
+	font-family: map.get($font-families, 'heading'), 'Georgia', 'Times New Roman', serif;
+	font-weight: map.get($font-weights, 'regular');
+	font-size: 6.5rem; // 104px на больших экранах
+	line-height: map.get($line-heights, 'tight');
+
+	@include respond-down('xl') {
+		font-size: 5.5rem; // 88px
+	}
+
+	@include respond-down('lg') {
+		font-size: 4.5rem; // 72px
+	}
+
+	@include respond-down('md') {
+		font-size: 3.5rem; // 56px
+	}
+
+	@include respond-down('sm') {
+		font-size: 2.5rem; // 40px
+	}
+}
+
+// Названия товаров, заголовки - Cormorant Garamond medium 32px, line-height 120%
+@mixin heading-product {
+	font-family: map.get($font-families, 'subheading'), 'Georgia', 'Times New Roman', serif;
+	font-weight: map.get($font-weights, 'medium');
+	font-size: map.get($font-sizes, '4xl'); // 32px
+	line-height: map.get($line-heights, 'product'); // 120%
+}
+
+// Основной текст - Manrope regular 18px
+@mixin text-body {
+	font-family: map.get($font-families, 'body'), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	font-weight: map.get($font-weights, 'regular');
+	font-size: map.get($font-sizes, 'lg'); // 18px
+	line-height: map.get($line-heights, 'normal');
+}
+
+// Основная кнопка - 150x50px, радиус 24px, темно-зеленая
+@mixin button-main {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 150px;
+	height: 50px;
+	padding: 0;
+	font-family: map.get($font-families, 'body'), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	font-weight: map.get($font-weights, 'medium'); // 500
+	font-size: map.get($font-sizes, 'lg'); // 18px
+	line-height: map.get($line-heights, 'normal'); // 1.5
+	color: map.get($colors, 'background');
+	background-color: map.get($colors, 'primary-dark');
+	border: 2px solid map.get($colors, 'primary-dark');
+	border-radius: 24px;
+	text-decoration: none;
+	cursor: pointer;
+	overflow: hidden;
+	@include transition(all, 0.3s, cubic-bezier(0.4, 0, 0.2, 1));
+
+	// Ripple эффект
+	&::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 0;
+		height: 0;
+		border-radius: 50%;
+		background-color: rgba(map.get($colors, 'background'), 0.3);
+		transform: translate(-50%, -50%);
+		transition: width 0.6s ease, height 0.6s ease;
+	}
+
+	&:hover {
+		background-color: map.get($colors, 'primary');
+		border-color: map.get($colors, 'primary');
+		transform: translateY(-2px);
+		box-shadow: 0 8px 16px rgba(map.get($colors, 'primary-dark'), 0.3);
+
+		&::before {
+			width: 300px;
+			height: 300px;
+		}
+	}
+
+	&:active {
+		transform: translateY(0);
+		box-shadow: 0 4px 8px rgba(map.get($colors, 'primary-dark'), 0.2);
+	}
+
+	&:focus-visible {
+		outline: 3px solid map.get($colors, 'primary');
+		outline-offset: 3px;
+	}
+
+	// Дочерние элементы поверх ripple
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+// Вертикальный заголовок секции с дивайдерами сверху и снизу
+@mixin section-title-vertical {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1.5rem;
+	writing-mode: vertical-lr;
+	transform: rotate(180deg);
+	font-family: map.get($font-families, 'subheading'), 'Georgia', 'Times New Roman', serif;
+	font-weight: map.get($font-weights, 'medium');
+	font-size: 3.75rem; // 60px
+	color: map.get($colors, 'primary-dark');
+	letter-spacing: 0.05em;
+
+	// Дивайдеры сверху и снизу от заголовка
+	&::before,
+	&::after {
+		content: '';
+		width: 2px;
+		height: 170px;
+		background-color: map.get($colors, 'primary-dark');
+	}
+
+	// Адаптация для планшетов
+	@include respond-down('md') {
+		font-size: 2.75rem; // 44px
+		gap: 1.25rem;
+
+		&::before,
+		&::after {
+			height: 120px;
+		}
+	}
+
+	// Адаптация для мобильных
+	@include respond-down('sm') {
+		font-size: 1.2rem; // 19.2px - компактный размер для мобильных
+		gap: 1rem;
+
+		&::before,
+		&::after {
+			width: 1.5px;
+			height: 80px;
+		}
+	}
+}
+
+// Заголовок секции (горизонтальный) - Cormorant Garamond bold 38px
+@mixin section-heading {
+	font-family: map.get($font-families, 'subheading'), 'Georgia', 'Times New Roman', serif;
+	font-weight: map.get($font-weights, 'bold');
+	font-size: 2.375rem; // 38px
+	line-height: map.get($line-heights, 'product'); // 120%
+	color: map.get($colors, 'text');
+}
+
+// Описание секции - Manrope regular 20px
+@mixin section-description {
+	font-family: map.get($font-families, 'body'), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	font-weight: map.get($font-weights, 'regular');
+	font-size: 1.25rem; // 20px
+	line-height: map.get($line-heights, 'relaxed'); // 1.6
+	color: map.get($colors, 'text');
 }

@@ -2,10 +2,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Performance & Security -->
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- CSP закомментирован для работы с external UI -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
+    
+    <!-- DNS Prefetch & Preconnect для оптимизации -->
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Preload критических ресурсов -->
+    <link rel="preload" href="./fonts/DMSerifDisplay-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./fonts/Manrope-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./fonts/CormorantGaramond-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./css/style.css" as="style">
+    <link rel="preload" href="./js/app.min.js" as="script">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
+    
+    <link rel="stylesheet" href="./css/style.css">
     <title>@@title</title>
     <meta name="title" content="@@title">
     <meta name="description" content="@@description">
+    <meta name="keywords" content="natural beauty, organic skincare, herbal supplements, eco-friendly cosmetics">
+    <meta name="author" content="Nature Care">
+    <meta name="robots" content="index, follow">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">

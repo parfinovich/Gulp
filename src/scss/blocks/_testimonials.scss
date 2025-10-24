@@ -1,0 +1,448 @@
+@use "sass:map";
+@use "../base/variables" as *;
+@use "../utils/mixins" as *;
+
+.testimonials {
+  position: relative;
+  padding: 5rem 0;
+  background-color: #EAEEE2;
+
+  @include respond-down('md') {
+    padding: 4rem 0;
+  }
+
+  @include respond-down('sm') {
+    padding: 3rem 0;
+  }
+
+  &__container {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 52px;
+  align-items: center;
+
+    @include respond-down('lg') {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @include respond-down('sm') {
+      gap: 2rem;
+    }
+  }
+
+  // Вертикальный заголовок секции
+  &__section-title {
+    @include section-title-vertical;
+    margin: 0;
+    justify-self: start;
+    align-self: center;
+
+    @include respond-down('lg') {
+      justify-self: center;
+    }
+
+    @include respond-down('md') {
+      writing-mode: horizontal-tb;
+      transform: none;
+      flex-direction: row;
+      font-size: 2.75rem; // 44px
+      
+      &::before,
+      &::after {
+        width: 100px;
+        height: 2px;
+      }
+    }
+
+    @include respond-down('sm') {
+      font-size: 1.875rem; // 30px
+      
+      &::before,
+      &::after {
+        width: 70px;
+        height: 1.5px;
+      }
+    }
+  }
+
+  // Контент справа
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 3rem 2rem;
+    width: 100%;
+    max-width: 100%;
+
+    @include respond-down('md') {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    @include respond-down('sm') {
+      gap: 2rem;
+    }
+  }
+
+  // Вступительный блок
+  &__intro {
+    grid-column: 3 / 11;
+    margin-bottom: 4.6875rem; // 75px
+
+    @include respond-down('md') {
+      grid-column: 1 / -1;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &__heading {
+    @include section-heading;
+    color: map.get($colors, 'primary-dark');
+    margin: 0 0 1.5rem;
+
+    @include respond-down('md') {
+      font-size: 2.25rem; // 36px
+      margin-bottom: 1.25rem;
+    }
+
+    @include respond-down('sm') {
+      font-size: 1.75rem; // 28px
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__description {
+    @include text-body;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: map.get($colors, 'primary');
+    margin: 0;
+
+    @include respond-down('md') {
+      font-size: 1.0625rem; // 17px
+      line-height: 1.55;
+    }
+
+    @include respond-down('sm') {
+      font-size: 0.9375rem; // 15px
+      line-height: 1.5;
+    }
+  }
+
+  // Слайдер с отзывами
+  &__slider-wrapper {
+    grid-column: 3 / -1;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+
+    @include respond-down('md') {
+      grid-column: 1 / -1;
+    }
+  }
+
+    &__slider {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: visible;
+    padding: 1.5rem 0 2rem 0;
+
+    @include respond-down('md') {
+      padding: 1rem 0 1.5rem 0;
+    }
+
+    @include respond-down('sm') {
+      padding: 1rem 0 1.5rem 0;
+    }
+
+    // Swiper обертка
+    .swiper-wrapper {
+      display: flex;
+      align-items: stretch;
+    }
+
+    // Слайды
+    .swiper-slide {
+      height: auto;
+      display: flex;
+      flex-shrink: 0;
+    }
+  }
+
+  &__arrow {
+    position: absolute;
+    top: -4rem;
+    width: 48px;
+    height: 48px;
+    border: none;
+    background-color: map.get($colors, 'background');
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    color: map.get($colors, 'primary'); // Зеленый цвет для инлайн SVG
+    @include transition(all, 0.3s, ease);
+
+    svg {
+      width: 24px;
+      height: 24px;
+      @include transition(color, 0.3s, ease);
+    }
+
+    // Скрываем стандартные стрелки Swiper
+    &::after {
+      display: none;
+    }
+
+    &--prev {
+      right: 6rem;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &--next {
+      right: 0;
+    }
+
+    &:hover:not(&--disabled) {
+      background-color: map.get($colors, 'primary');
+      color: map.get($colors, 'background'); // Белый цвет для SVG при ховере
+      transform: scale(1.1);
+    }
+
+    &:active:not(&--disabled) {
+      transform: scale(0.95);
+    }
+
+    &.swiper-button-disabled,
+    &--disabled {
+      opacity: 0.3;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
+    @include respond-down('md') {
+      top: -3rem;
+      width: 40px;
+      height: 40px;
+
+      &--prev {
+        right: 3.5rem;
+      }
+    }
+
+    @include respond-down('sm') {
+      &--prev {
+        right: 3rem;
+      }
+    }
+  }
+
+  // Декоры
+  &__decor {
+    position: absolute;
+    width: 400px;
+    height: auto;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+
+    &--left {
+      top: 50%;
+      left: -200px;
+      transform: translateY(-50%);
+
+      @include respond-down('lg') {
+        left: -120px;
+        width: 320px;
+      }
+
+      @include respond-down('md') {
+        display: none;
+      }
+    }
+
+    &--right {
+      top: 50%;
+      right: -200px;
+      transform: translateY(-50%);
+
+      @include respond-down('lg') {
+        right: -120px;
+        width: 320px;
+      }
+
+      @include respond-down('md') {
+        display: none;
+      }
+    }
+  }
+}
+
+// Карточка отзыва
+.testimonial-card {
+  background-color: map.get($colors, 'background'); // Белый фон
+  border-radius: 16px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 280px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  @include transition(all, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  @include respond-down('md') {
+    padding: 2rem;
+    min-height: 260px;
+  }
+
+  @include respond-down('sm') {
+    padding: 1.75rem;
+    min-height: 240px;
+  }
+
+  // Декоративная подсветка
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, 
+      rgba(map.get($colors, 'primary'), 0.08) 0%, 
+      transparent 70%);
+    opacity: 0;
+    @include transition(opacity, 0.4s, ease);
+  }
+
+  &:hover {
+    transform: translateY(-12px);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.08), 0 12px 24px rgba(0, 0, 0, 0.15);
+
+    &::before {
+      opacity: 1;
+    }
+
+    #{&}__quote {
+      transform: scale(1.15) rotate(-8deg);
+    }
+
+    #{&}__avatar {
+      transform: scale(1.15);
+      box-shadow: 0 6px 16px rgba(map.get($colors, 'primary'), 0.4);
+    }
+  }
+
+  &__quote {
+    width: 32px;
+    height: 32px;
+    display: block;
+    @include transition(transform, 0.3s, cubic-bezier(0.4, 0, 0.2, 1));
+    position: relative;
+    z-index: 1;
+
+    @include respond-down('sm') {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &__text {
+    @include text-body; // Manrope light 16px
+    font-weight: map.get($font-weights, 'light');
+    font-size: 1rem;
+    line-height: 1.6;
+    color: map.get($colors, 'primary');
+    margin: 0;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+
+    @include respond-down('md') {
+      font-size: 0.9375rem; // 15px
+      line-height: 1.55;
+    }
+
+    @include respond-down('sm') {
+      font-size: 0.875rem; // 14px
+      line-height: 1.5;
+    }
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; // Имя слева, аватар справа
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__name {
+    @include heading-product; // Cormorant Garamond medium 18px
+    font-size: 1.125rem;
+    color: map.get($colors, 'text');
+
+    @include respond-down('md') {
+      font-size: 1.0625rem; // 17px
+    }
+
+    @include respond-down('sm') {
+      font-size: 1rem; // 16px
+    }
+  }
+
+  &__avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 3px solid rgba(map.get($colors, 'background'), 0.8);
+    @include transition(all, 0.3s, cubic-bezier(0.4, 0, 0.2, 1));
+
+    @include respond-down('sm') {
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
+
+// Переопределение для Swiper контейнера
+.testimonials__slider.swiper {
+  width: 100%;
+  max-width: 100%;
+
+  .swiper-wrapper {
+    display: flex;
+  }
+
+  .swiper-slide {
+    box-sizing: border-box;
+    height: auto;
+    flex-shrink: 0;
+  }
+}
+
+// Жесткое ограничение ширины слайдов для перекрытия inline-стилей
+.testimonials__slider .swiper-slide[style] {
+  width: 100% !important;
+  max-width: 100% !important;
+  
+  @media (min-width: 768px) {
+    width: 50% !important;
+    max-width: 50% !important;
+  }
+}
+

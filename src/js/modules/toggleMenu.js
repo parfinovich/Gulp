@@ -1,20 +1,42 @@
+/**
+ * Управление мобильным меню
+ */
 export function toggleMobileMenu() {
 	const burger = document.querySelector('.header__burger');
-	const menu = document.getElementById('mobileMenu');
+	const nav = document.querySelector('.header__nav');
+	const body = document.body;
 
-	if (!burger || !menu) return;
+	if (!burger || !nav) return;
 
 	burger.addEventListener('click', () => {
-	const expanded = burger.getAttribute('aria-expanded') === 'true';
+		const isExpanded = burger.getAttribute('aria-expanded') === 'true';
 
-	// Переключаем aria
-	burger.setAttribute('aria-expanded', String(!expanded));
+		// Переключаем состояние
+		burger.setAttribute('aria-expanded', String(!isExpanded));
+		burger.classList.toggle('header__burger--active');
+		nav.classList.toggle('header__nav--active');
+		body.classList.toggle('no-scroll');
+	});
 
-	// Переключаем видимость меню
-	menu.hidden = expanded;
+	// Закрытие меню при клике на ссылку
+	const navLinks = nav.querySelectorAll('.header__nav-link');
+	navLinks.forEach(link => {
+		link.addEventListener('click', () => {
+			burger.setAttribute('aria-expanded', 'false');
+			burger.classList.remove('header__burger--active');
+			nav.classList.remove('header__nav--active');
+			body.classList.remove('no-scroll');
+		});
+	});
 
-	// Классы для анимации (добавь по желанию в CSS)
-	burger.classList.toggle('header__burger--active');
-	menu.classList.toggle('header__mobile-nav--open');
+	// Закрытие меню при клике вне его области
+	nav.addEventListener('click', (e) => {
+		if (e.target === nav) {
+			burger.setAttribute('aria-expanded', 'false');
+			burger.classList.remove('header__burger--active');
+			nav.classList.remove('header__nav--active');
+			body.classList.remove('no-scroll');
+		}
 	});
 }
+

@@ -3,7 +3,13 @@
 
 // Color Palette
 $colors: (
-  'primary': #ea4343,
+  'primary': #5E8C61,        // Основной цвет (доверие)
+  'primary-dark': #2F5D3B,   // Темно-зеленый
+  'background': #FFFFFF,      // Белый фон
+  'background-light': #E3F2E1, // Светлый фон/подложки
+  'background-natural': #F7F4EC, // Натуральность
+  'background-about': #FFFBF8, // Фон секции About
+  'text': #4D4D4D,           // Основной текст
   'secondary': #3c3c3c,
   'accent': #ffd700,
   'success': #22c55e,
@@ -23,19 +29,47 @@ $color-gold: map.get($colors, 'accent');
 $white: map.get($colors, 'white');
 $black: map.get($colors, 'black');
 
+// Font Families
+$font-families: (
+  'heading': 'DM Serif Display',      // Заголовки
+  'subheading': 'Cormorant Garamond', // Названия товаров, подзаголовки
+  'body': 'Manrope'                   // Основной текст
+) !default;
+
+// System fonts fallback
+$system-fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
+// Font Weights
+$font-weights: (
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700
+) !default;
+
 // Typography Scale
 $font-sizes: (
   'xs': 0.75rem,    // 12px
   'sm': 0.875rem,   // 14px
   'base': 1rem,     // 16px
-  'lg': 1.125rem,   // 18px
+  'lg': 1.125rem,   // 18px (основной текст)
   'xl': 1.25rem,    // 20px
   '2xl': 1.5rem,    // 24px
   '3xl': 1.875rem,  // 30px
-  '4xl': 2.25rem,   // 36px
+  '4xl': 2rem,      // 32px (названия товаров, заголовки)
   '5xl': 3rem,      // 48px
   '6xl': 3.75rem,   // 60px
-  '7xl': 4.5rem,    // 72px
+  '7xl': 4rem,      // 64px (заголовки)
+) !default;
+
+// Line Heights
+$line-heights: (
+  'tight': 1.1,
+  'product': 1.2,    // 120% для названий товаров
+  'normal': 1.5,
+  'relaxed': 1.75,
+  'loose': 2
 ) !default;
 
 // Spacing Scale  

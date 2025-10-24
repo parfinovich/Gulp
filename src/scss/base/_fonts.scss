@@ -16,13 +16,28 @@
   }
 }
 
-@include font("MasqueradeToyStoreStuff-Regular", "MasqueradeToyStoreStuff-Regular", 400, normal);
+// DM Serif Display - для заголовков (обычный шрифт)
+@include font("DM Serif Display", "DMSerifDisplay-Regular", 400, normal);
 
-// Пример использования:
-body {
-  font-family: "Masquerade Toy Store Stuff", sans-serif;
-  font-weight: 400;
+// Cormorant Garamond - для названий товаров и подзаголовков (Variable Font)
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("../fonts/CormorantGaramond-VariableFont_wght.woff2") format("woff2-variations"),
+       url("../fonts/CormorantGaramond-VariableFont_wght.woff") format("woff-variations");
+  font-weight: 300 700;
   font-style: normal;
-  font-optical-sizing: auto;
-  font-variation-settings: "slnt" 0;
+  font-display: swap;
+  font-variation-settings: 'wght' 500; // Medium как default
 }
+
+// Manrope - для основного текста (Variable Font)
+@font-face {
+  font-family: "Manrope";
+  src: url("../fonts/Manrope-VariableFont_wght.woff2") format("woff2-variations"),
+       url("../fonts/Manrope-VariableFont_wght.woff") format("woff-variations");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'wght' 400;
+}
+

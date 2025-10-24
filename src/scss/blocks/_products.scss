@@ -1,0 +1,375 @@
+@use "sass:map";
+@use "../base/variables" as *;
+@use "../utils/mixins" as *;
+
+.products {
+  position: relative;
+  padding: 5rem 0;
+  background-color: map.get($colors, 'background-natural');
+  overflow: hidden;
+
+  @include respond-down('md') {
+    padding: 4rem 0;
+  }
+
+  &__container {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 52px;
+    align-items: center; // Центрирование всех элементов по вертикали
+
+    @include respond-down('lg') {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+
+  // Вертикальный заголовок секции
+  &__section-title {
+    @include section-title-vertical;
+    margin: 0;
+    justify-self: start;
+    align-self: center; // Центрирование по вертикали
+
+    @include respond-down('lg') {
+      justify-self: center;
+    }
+
+    @include respond-down('md') {
+      writing-mode: horizontal-tb;
+      transform: none;
+      flex-direction: row;
+      font-size: 2.75rem; // 44px
+      
+      &::before,
+      &::after {
+        width: 100px;
+        height: 2px;
+      }
+    }
+
+    @include respond-down('sm') {
+      font-size: 1.875rem; // 30px
+      
+      &::before,
+      &::after {
+        width: 70px;
+        height: 1.5px;
+      }
+    }
+  }
+
+  // Контент справа
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 3rem 2rem;
+
+    @include respond-down('md') {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  // Вступительный блок
+  &__intro {
+    grid-column: 3 / 11; // Отступ в 2 колонки слева, занимает 8 колонок
+
+    @include respond-down('md') {
+      grid-column: 1 / -1;
+    }
+  }
+
+    &__heading {
+    @include section-heading;
+    color: map.get($colors, 'primary-dark');
+    margin: 0 0 1.5rem;
+
+    @include respond-down('md') {
+      font-size: 2.25rem; // 36px
+      margin-bottom: 1.25rem;
+    }
+
+    @include respond-down('sm') {
+      font-size: 1.75rem; // 28px
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__description {
+    @include text-body;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: map.get($colors, 'primary');
+    margin: 0;
+
+    @include respond-down('md') {
+      font-size: 1.0625rem; // 17px
+      line-height: 1.55;
+    }
+
+    @include respond-down('sm') {
+      font-size: 0.9375rem; // 15px
+      line-height: 1.5;
+    }
+  }
+
+  // Список карточек
+  &__list {
+    grid-column: 3 / 11; // Строго под текстом, те же колонки что у intro
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 380px));
+    gap: 2rem;
+    justify-content: center;
+
+    @include respond-down('md') {
+      grid-column: 1 / -1;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  // Декор (скрыт по умолчанию, показывается у последней карточки)
+  &__decor {
+    display: none;
+  }
+}
+
+// Карточка продукта
+.product-card {
+  position: relative;
+  width: 380px;
+  height: 600px;
+  background-color: map.get($colors, 'background'); // Белый фон
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  @include transition(all, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  // Градиентная подсветка при наведении
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+      rgba(map.get($colors, 'primary'), 0.1), 
+      rgba(map.get($colors, 'primary-dark'), 0.05));
+    opacity: 0;
+    @include transition(opacity, 0.4s, ease);
+    z-index: 0;
+  }
+
+  &:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(map.get($colors, 'primary-dark'), 0.2);
+
+    &::before {
+      opacity: 1;
+    }
+
+    #{&}__image {
+      transform: scale(1.08);
+    }
+
+    #{&}__badge {
+      transform: scale(1.1);
+      background-color: map.get($colors, 'primary');
+      color: map.get($colors, 'background');
+    }
+  }
+
+  @include respond-down('sm') {
+    width: 100%;
+    height: auto;
+    min-height: 520px;
+  }
+
+  &__image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: map.get($colors, 'background'); // Белый фон
+    border-radius: 12px 12px 0 0; // Скругление только верхних углов
+    overflow: hidden;
+    z-index: 1;
+
+    @include respond-down('sm') {
+      height: 300px;
+      padding: 20px;
+    }
+
+    // Стили для автоматически сгенерированного picture
+    picture {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 95%;
+      height: 95%;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    padding: 0.5rem 1rem;
+    background-color: map.get($colors, 'background-natural');
+    @include text-body;
+    font-weight: map.get($font-weights, 'medium');
+    font-size: 0.75rem;
+    color: map.get($colors, 'primary');
+    border-radius: 8px;
+    text-transform: lowercase;
+    z-index: 2;
+    @include transition(all, 0.3s, ease);
+
+    @include respond-down('sm') {
+      top: 1.25rem;
+      right: 1.25rem;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    @include transition(transform, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
+  }
+
+  &__content {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    @include respond-down('sm') {
+      padding: 1.5rem;
+    }
+  }
+
+  &__title {
+    @include heading-product; // Cormorant Garamond semibold 24px
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: map.get($colors, 'text');
+    margin: 0;
+
+    @include respond-down('md') {
+      font-size: 1.375rem; // 22px
+    }
+
+    @include respond-down('sm') {
+      font-size: 1.25rem; // 20px
+    }
+  }
+
+  &__subtitle {
+    @include text-body; // Manrope medium 16px
+    font-size: 1rem;
+    line-height: 1.4;
+    color: map.get($colors, 'primary');
+    margin: 0;
+
+    @include respond-down('md') {
+      font-size: 0.9375rem; // 15px
+    }
+
+    @include respond-down('sm') {
+      font-size: 0.875rem; // 14px
+    }
+  }
+
+  &__description {
+    @include text-body; // Manrope regular 18px
+    color: map.get($colors, 'text');
+    margin: 0 0 1rem;
+    flex: 1;
+    font-size: 0.9375rem; // 15px
+    line-height: 1.5;
+
+    @include respond-down('md') {
+      font-size: 0.875rem; // 14px
+      line-height: 1.5;
+    }
+
+    @include respond-down('sm') {
+      font-size: 0.8125rem; // 13px
+      line-height: 1.5;
+    }
+  }
+
+  &__button {
+    position: relative;
+    width: 100%;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background-color: map.get($colors, 'primary-dark');
+    color: map.get($colors, 'background');
+    border: none;
+    border-radius: 50px;
+    font-family: map.get($font-families, 'body'), $system-fonts;
+    font-size: 1.125rem;
+    font-weight: map.get($font-weights, 'medium');
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+    @include transition(all, 0.3s, ease);
+
+    // Анимированный фон при ховере
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: map.get($colors, 'primary');
+      transition: left 0.4s ease;
+      z-index: -1;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(map.get($colors, 'primary-dark'), 0.3);
+
+      &::before {
+        left: 0;
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+    
+    span {
+      font-size: 1rem;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &__amazon-icon {
+    width: 48px;
+    height: 16px;
+    object-fit: contain;
+    display: block;
+  }
+}

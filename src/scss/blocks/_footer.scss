@@ -1,0 +1,166 @@
+@use "sass:map";
+@use "../base/variables" as *;
+@use "../utils/mixins" as *;
+
+.footer {
+  background-color: map.get($colors, 'background-light'); // Светло-зеленый как у contact
+  color: map.get($colors, 'text');
+  padding: 3rem 0 2rem;
+
+  @include respond-down('md') {
+    padding: 2.5rem 0 1.5rem;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  // Верхняя часть
+  &__top {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+    padding-bottom: 2.5rem;
+
+    @include respond-down('lg') {
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    @include respond-down('md') {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+  }
+
+  // Логотип
+  &__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  &__logo-img {
+    display: block;
+    width: 160px;
+    height: auto;
+    object-fit: contain;
+
+    @include respond-down('md') {
+      width: 140px;
+    }
+
+    @include respond-down('sm') {
+      width: 120px;
+    }
+  }
+
+  // Контакты
+  &__contacts {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    @include respond-down('md') {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+  }
+
+  &__contact-link {
+    @include text-body;
+    color: map.get($colors, 'primary-dark');
+    text-decoration: none;
+    @include transition(color, 0.3s, ease);
+
+    &:hover {
+      color: map.get($colors, 'primary');
+    }
+  }
+
+  // Кредиты и ссылки
+  &__credits {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    @include respond-down('md') {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+  }
+
+  &__made {
+    @include text-body;
+    color: map.get($colors, 'primary-dark');
+  }
+
+  &__heart {
+    display: inline-block;
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+
+  &__author {
+    color: map.get($colors, 'primary');
+    text-decoration: none;
+    font-weight: map.get($font-weights, 'medium');
+    @include transition(color, 0.3s, ease);
+
+    &:hover {
+      color: map.get($colors, 'primary-dark');
+      text-decoration: underline;
+    }
+  }
+
+  &__privacy-link {
+    @include text-body;
+    color: map.get($colors, 'primary-dark');
+    text-decoration: none;
+    @include transition(color, 0.3s, ease);
+
+    &:hover {
+      color: map.get($colors, 'primary');
+    }
+  }
+
+  // Нижняя часть
+  &__bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1.5rem;
+
+    @include respond-down('md') {
+      text-align: center;
+    }
+  }
+
+  &__copyright {
+    font-family: map.get($font-families, 'subheading'), $system-fonts;
+    font-size: 1.2rem;
+    line-height: 1.2; // 120%
+    font-weight: map.get($font-weights, 'regular');
+    color: map.get($colors, 'primary-dark');
+    margin: 0;
+  }
+}
+
+// Анимация для сердечка
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
