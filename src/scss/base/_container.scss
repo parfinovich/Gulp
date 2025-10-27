@@ -1,11 +1,20 @@
 @use '../utils' as *;
 
 $container-max-width: 1440px;
-$container-padding: clamp(15px, 3vw, 40px);
+$container-padding: clamp(20px, 4vw, 40px);
 
 .container {
   width: 100%;
   max-width: $container-max-width;
   margin-inline: auto;
   padding-inline: $container-padding;
+  
+  // Дополнительные отступы для мобильных
+  @include respond-down('md') {
+    padding-inline: clamp(16px, 5vw, 24px);
+  }
+  
+  @include respond-down('sm') {
+    padding-inline: clamp(16px, 6vw, 20px);
+  }
 }

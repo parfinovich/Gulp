@@ -1,4 +1,4 @@
-// Testimonials Swiper Slider - УПРОЩЕННАЯ ВЕРСИЯ
+// Testimonials Swiper Slider - ИСПРАВЛЕННАЯ ВЕРСИЯ ДЛЯ ВЫРАВНИВАНИЯ
 let testimonialsSwiper = null;
 
 export const initTestimonialsSlider = () => {
@@ -15,28 +15,26 @@ export const initTestimonialsSlider = () => {
     testimonialsSwiper = null;
   }
 
-  // Небольшая задержка для корректного расчета размеров
   setTimeout(() => {
     testimonialsSwiper = new Swiper('.testimonials__slider', {
       // Основные параметры
-      // По умолчанию показываем 1 слайд — это безопасно для мобильных устройств.
-      slidesPerView: 1,
-      spaceBetween: 20,
-      speed: 600,
+      slidesPerView: 'auto', // Автоматическое определение количества слайдов
+      spaceBetween: 32, // Отступ между карточками
+      speed: 500,
       loop: false,
       grabCursor: true,
       watchOverflow: true,
-      centeredSlides: false,
+      centeredSlides: false, // Не центрировать слайды
       
       // Важные параметры для корректной работы
       observer: true,
       observeParents: true,
       updateOnWindowResize: true,
-      resizeObserver: false, // Отключаем чтобы избежать конфликтов
+      resizeObserver: true,
       
       // Настройки свайпов
       allowTouchMove: true,
-      resistanceRatio: 0.85,
+      resistanceRatio: 0.7,
       
       // Навигация
       navigation: {
@@ -45,26 +43,31 @@ export const initTestimonialsSlider = () => {
         disabledClass: 'testimonials__arrow--disabled',
       },
       
-      // Breakpoints: на мобильных показываем 1 слайд, на >=768 — 2
+      // Breakpoints - для правильного выравнивания
       breakpoints: {
-        // Мобильные устройства — 1 слайд (в сочетании с CSS это даёт корректную ширину)
+        // Мобильные устройства
         0: {
           slidesPerView: 1,
-          spaceBetween: 20,
+          spaceBetween: 16,
+          slidesPerGroup: 1,
+          centeredSlides: false,
         },
-        // От 768px - показываем по 2 карточки
+        // Десктоп - используем auto для фиксированной ширины 400px
         768: {
           slidesPerView: 2,
-          spaceBetween: 32,
+          spaceBetween: 45,
+          slidesPerGroup: 2,
+          centeredSlides: false,
         },
       },
       
       on: {
         init: function() {
+          updateNavButtons(this);
+          // Гарантируем правильную ширину после инициализации
           setTimeout(() => {
             this.update();
             updateNavButtons(this);
-            enforceMobileSlideWidths(this);
           }, 100);
         },
         slideChange: function() {
@@ -73,122 +76,42 @@ export const initTestimonialsSlider = () => {
         resize: function() {
           this.update();
           updateNavButtons(this);
-          enforceMobileSlideWidths(this);
         },
         breakpoint: function() {
-          setTimeout(() => {
-            this.update();
-            updateNavButtons(this);
-            enforceMobileSlideWidths(this);
-          }, 50);
-        },
+          this.update();
+          updateNavButtons(this);
+        }
       }
     });
   }, 100);
-
-  // Обработчик изменения размера окна
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      if (testimonialsSwiper) {
-        testimonialsSwiper.update();
-        updateNavButtons(testimonialsSwiper);
-        // Принудительно применяем защитные стили при изменении размера окна
-        try {
-          enforceMobileSlideWidths(testimonialsSwiper);
-        } catch (e) {}
-      }
-    }, 250);
-  });
 };
 
-// Функция обновления кнопок навигации (без изменений)
+// Функция обновления кнопок навигации
 function updateNavButtons(swiper) {
   const prevButton = document.querySelector('.testimonials__arrow--prev');
   const nextButton = document.querySelector('.testimonials__arrow--next');
   
-  if (!prevButton || !nextButton) {
-    console.warn('Navigation buttons not found');
-    return;
-  }
+  if (!prevButton || !nextButton) return;
 
   const isBeginning = swiper.isBeginning;
   const isEnd = swiper.isEnd;
   
-  // Обновление кнопки "Назад"
-  if (isBeginning) {
-    prevButton.style.opacity = '0';
-    prevButton.style.pointerEvents = 'none';
-    prevButton.setAttribute('aria-disabled', 'true');
-    prevButton.classList.add('testimonials__arrow--disabled');
-  } else {
-    prevButton.style.opacity = '1';
-    prevButton.style.pointerEvents = 'auto';
-    prevButton.setAttribute('aria-disabled', 'false');
-    prevButton.classList.remove('testimonials__arrow--disabled');
-  }
+  const updateButtonState = (button, isDisabled) => {
+    if (isDisabled) {
+      button.style.opacity = '0.3';
+      button.style.pointerEvents = 'none';
+      button.setAttribute('aria-disabled', 'true');
+      button.classList.add('testimonials__arrow--disabled');
+    } else {
+      button.style.opacity = '1';
+      button.style.pointerEvents = 'auto';
+      button.setAttribute('aria-disabled', 'false');
+      button.classList.remove('testimonials__arrow--disabled');
+    }
+  };
   
-  // Обновление кнопки "Вперед"
-  if (isEnd) {
-    nextButton.style.opacity = '0.3';
-    nextButton.style.pointerEvents = 'none';
-    nextButton.setAttribute('aria-disabled', 'true');
-    nextButton.classList.add('testimonials__arrow--disabled');
-  } else {
-    nextButton.style.opacity = '1';
-    nextButton.style.pointerEvents = 'auto';
-    nextButton.setAttribute('aria-disabled', 'false');
-    nextButton.classList.remove('testimonials__arrow--disabled');
-  }
-}
-
-// Защитная функция: на мобильных экранах сбрасываем inline-width от Swiper
-// и принудительно ограничиваем max-width, чтобы карточки не тянулись слишком широко.
-function enforceMobileSlideWidths(swiper) {
-  try {
-    const isMobile = window.innerWidth < 768;
-    const slides = Array.from(swiper.slides || []);
-
-    slides.forEach(slide => {
-      if (isMobile) {
-        // Убираем потенциальные конфликтующие свойства
-        slide.style.removeProperty('min-width');
-        // Принудительно выставляем ширину 100% через inline-стиль с !important
-        slide.style.setProperty('width', '100%', 'important');
-        slide.style.setProperty('max-width', '100%', 'important');
-        slide.style.setProperty('box-sizing', 'border-box', 'important');
-
-        // Также ограничим ширину самой карточки внутри слайда, если она есть
-        const card = slide.querySelector && slide.querySelector('.testimonial-card');
-        if (card) {
-          card.style.setProperty('width', '100%', 'important');
-          card.style.setProperty('max-width', '100%', 'important');
-          card.style.setProperty('box-sizing', 'border-box', 'important');
-        }
-      } else {
-        // на десктопе даём Swiper установить ширины сам — убираем наши защитные стили
-        slide.style.removeProperty('width');
-        slide.style.removeProperty('max-width');
-        slide.style.removeProperty('box-sizing');
-
-        const card = slide.querySelector && slide.querySelector('.testimonial-card');
-        if (card) {
-          card.style.removeProperty('width');
-          card.style.removeProperty('max-width');
-          card.style.removeProperty('box-sizing');
-        }
-      }
-    });
-
-    // Обновляем Swiper после изменений
-    setTimeout(() => {
-      if (swiper && typeof swiper.update === 'function') swiper.update();
-    }, 20);
-  } catch (e) {
-    // безопасный лог — не ломаем основной поток
-    // console.warn('enforceMobileSlideWidths error', e);
-  }
+  updateButtonState(prevButton, isBeginning);
+  updateButtonState(nextButton, isEnd);
 }
 
 export const destroyTestimonialsSlider = () => {
@@ -197,3 +120,6 @@ export const destroyTestimonialsSlider = () => {
     testimonialsSwiper = null;
   }
 };
+
+// Автоматическая инициализация
+document.addEventListener('DOMContentLoaded', initTestimonialsSlider);
