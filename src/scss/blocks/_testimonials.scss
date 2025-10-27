@@ -6,6 +6,7 @@
   position: relative;
   padding: 5rem 0;
   background-color: #EAEEE2;
+  overflow: hidden; // ИСПРАВЛЕНИЕ: предотвращаем выход контента за пределы
 
   @include respond-down('md') {
     padding: 4rem 0;
@@ -16,10 +17,10 @@
   }
 
   &__container {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: 52px;
-  align-items: center;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 52px;
+    align-items: center;
 
     @include respond-down('lg') {
       grid-template-columns: 1fr;
@@ -32,7 +33,6 @@
     }
   }
 
-  // Вертикальный заголовок секции
   &__section-title {
     @include section-title-vertical;
     margin: 0;
@@ -74,6 +74,7 @@
     gap: 3rem 2rem;
     width: 100%;
     max-width: 100%;
+    overflow: hidden; // ИСПРАВЛЕНИЕ: предотвращаем выход контента
 
     @include respond-down('md') {
       grid-template-columns: 1fr;
@@ -136,19 +137,19 @@
     position: relative;
     width: 100%;
     max-width: 100%;
+    overflow: hidden; // ИСПРАВЛЕНИЕ: критически важно для предотвращения выхода слайдов
 
     @include respond-down('md') {
       grid-column: 1 / -1;
     }
   }
 
-    &__slider {
-      position: relative;
-      width: 100%;
-      max-width: 100%;
-      overflow-x: hidden;
-      overflow-y: visible;
-      padding: 1.5rem 0 2rem 0;
+  &__slider {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 1.5rem 0 2rem 0;
 
     @include respond-down('md') {
       padding: 1rem 0 1.5rem 0;
@@ -164,11 +165,29 @@
       align-items: stretch;
     }
 
-    // Слайды
+    // ИСПРАВЛЕНИЕ: явно задаем ширину слайдов
     .swiper-slide {
       height: auto;
       display: flex;
       flex-shrink: 0;
+      width: 400px !important; // Базовая ширина для десктопа
+      max-width: 400px;
+      box-sizing: border-box;
+
+      @include respond-down('lg') {
+        width: 380px !important;
+        max-width: 380px;
+      }
+
+      @include respond-down('md') {
+        width: 90% !important;
+        max-width: 100%;
+      }
+
+      @include respond-down('sm') {
+        width: 100% !important;
+        max-width: 100%;
+      }
     }
   }
 
@@ -185,7 +204,7 @@
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    color: map.get($colors, 'primary'); // Зеленый цвет для инлайн SVG
+    color: map.get($colors, 'primary');
     @include transition(all, 0.3s, ease);
 
     svg {
@@ -211,7 +230,7 @@
 
     &:hover:not(&--disabled) {
       background-color: map.get($colors, 'primary');
-      color: map.get($colors, 'background'); // Белый цвет для SVG при ховере
+      color: map.get($colors, 'background');
       transform: scale(1.1);
     }
 
@@ -286,7 +305,7 @@
 
 // Карточка отзыва
 .testimonial-card {
-  background-color: map.get($colors, 'background'); // Белый фон
+  background-color: map.get($colors, 'background');
   border-radius: 16px;
   padding: 2.5rem;
   display: flex;
@@ -294,7 +313,8 @@
   gap: 1.5rem;
   min-height: 280px;
   height: 100%;
-  width: 100%;
+  width: 100%; // ИСПРАВЛЕНИЕ: карточка занимает всю ширину слайда
+  max-width: 100%;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
@@ -311,7 +331,6 @@
     min-height: 240px;
   }
 
-  // Декоративная подсветка
   &::before {
     content: '';
     position: absolute;
@@ -359,7 +378,7 @@
   }
 
   &__text {
-    @include text-body; // Manrope light 16px
+    @include text-body;
     font-weight: map.get($font-weights, 'light');
     font-size: 1rem;
     line-height: 1.6;
@@ -383,14 +402,14 @@
   &__author {
     display: flex;
     align-items: center;
-    justify-content: space-between; // Имя слева, аватар справа
+    justify-content: space-between;
     gap: 1rem;
     position: relative;
     z-index: 1;
   }
 
   &__name {
-    @include heading-product; // Cormorant Garamond medium 18px
+    @include heading-product;
     font-size: 1.125rem;
     color: map.get($colors, 'text');
 
@@ -416,33 +435,5 @@
       width: 48px;
       height: 48px;
     }
-  }
-}
-
-// Переопределение для Swiper контейнера — даём Swiper рассчитывать ширины,
-// но защищаем карточки от переполнения
-.testimonials__slider.swiper {
-  width: 100%;
-  max-width: 100%;
-
-  .swiper-wrapper {
-    display: flex;
-  }
-
-  .swiper-slide {
-    box-sizing: border-box;
-    height: auto;
-    flex-shrink: 0;
-    flex-basis: auto;
-    width: auto;
-    max-width: 100%;
-  }
-}
-
-.testimonials__slider {
-  .swiper-slide {
-    /* позволяем Swiper устанавливать ширину; ограничиваем максимум */
-    width: auto;
-    max-width: 100%;
   }
 }
