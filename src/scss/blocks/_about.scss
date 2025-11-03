@@ -26,11 +26,17 @@
     grid-template-columns: auto minmax(0, 1fr);
     column-gap: 52px;
     align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 
     @include respond-down('lg') {
       grid-template-columns: 1fr;
-      gap: 3rem;
+      gap: 2.5rem;
       align-items: start;
+    }
+
+    @include respond-down('sm') {
+      gap: 2rem;
     }
   }
 
@@ -43,23 +49,20 @@
 
     @include respond-down('lg') {
       justify-self: center;
-    }
-
-    @include respond-down('md') {
       writing-mode: horizontal-tb;
       transform: none;
       flex-direction: row;
-      font-size: 2.75rem; // 44px
+      font-size: 2.5rem; // 40px - для планшетов
       
       &::before,
       &::after {
-        width: 100px;
+        width: 80px;
         height: 2px;
       }
     }
 
     @include respond-down('sm') {
-      font-size: 1.875rem; // 30px
+      font-size: 1.875rem; // 30px - для мобильных
       
       &::before,
       &::after {
@@ -75,19 +78,18 @@
     grid-template-columns: repeat(12, 1fr);
     gap: 3rem 2rem;
     align-items: center;
-
-    @include respond-down('lg') {
-      gap: 2rem;
-    }
+    width: 100%;
+    box-sizing: border-box;
 
     @include respond-down('md') {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr; // Две колонки на планшетах
       gap: 2rem;
-      text-align: center;
     }
 
     @include respond-down('sm') {
+      grid-template-columns: 1fr;
       gap: 1.5rem;
+      text-align: center;
     }
   }
 
@@ -102,13 +104,14 @@
     padding: 0;
 
     @include respond-down('md') {
-      grid-column: 1 / -1;
+      grid-column: 1 / 2; // Первая колонка на планшетах
       gap: 1.5rem;
-      align-items: flex-start; // Выравнивание по левому краю
     }
 
     @include respond-down('sm') {
+      grid-column: 1 / -1;
       gap: 1.25rem;
+      align-items: flex-start;
     }
   }
 
@@ -143,7 +146,7 @@
     margin: 0;
 
     @include respond-down('md') {
-      font-size: 1.3125rem; // 21px
+      font-size: 1.25rem; // 20px - более читаемо на планшетах
     }
 
     @include respond-down('sm') {
@@ -159,6 +162,10 @@
     align-items: center;
 
     @include respond-down('md') {
+      grid-column: 2 / 3; // Вторая колонка на планшетах
+    }
+
+    @include respond-down('sm') {
       grid-column: 1 / -1;
     }
   }
@@ -171,7 +178,7 @@
     z-index: 2;
 
     @include respond-down('md') {
-      max-width: 280px;
+      max-width: 300px;
     }
 
     @include respond-down('sm') {
@@ -191,14 +198,12 @@
     opacity: 0.4;
 
     @include respond-down('md') {
-      max-width: 350px;
-      left: 50%;
-      transform: translate(-15%, -50%);
+      max-width: 380px;
     }
 
     @include respond-down('sm') {
-      width: 100%;
       max-width: 280px;
+      left: 50%;
       transform: translate(-20%, -50%);
       opacity: 0.3;
     }

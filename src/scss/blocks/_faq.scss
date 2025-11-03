@@ -34,17 +34,14 @@
 
     @include respond-down('lg') {
       justify-self: center;
-    }
-
-    @include respond-down('md') {
       writing-mode: horizontal-tb;
       transform: none;
       flex-direction: row;
-      font-size: 2.75rem; // 44px
+      font-size: 2.5rem; // 40px - для планшетов
       
       &::before,
       &::after {
-        width: 100px;
+        width: 80px;
         height: 2px;
       }
     }
@@ -87,8 +84,8 @@
     margin: 0 0 1.5rem;
 
     @include respond-down('md') {
-      font-size: 2.25rem; // 36px
-      margin-bottom: 1.25rem;
+      font-size: 2rem; // 32px - уменьшено для планшетов
+      margin-bottom: 1rem;
     }
 
     @include respond-down('sm') {
@@ -105,8 +102,8 @@
     margin: 0;
 
     @include respond-down('md') {
-      font-size: 1.0625rem; // 17px
-      line-height: 1.55;
+      font-size: 1rem; // 16px - более читаемо на планшетах
+      line-height: 1.5;
     }
 
     @include respond-down('sm') {

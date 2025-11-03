@@ -15,6 +15,19 @@
 	}
 }
 
+// Alias for respond-to (min-width)
+@mixin respond-up($breakpoint) {
+	$bp-value: map.get($breakpoints, $breakpoint);
+	@if $bp-value {
+		@media (min-width: $bp-value) {
+			@content;
+		}
+	} @else {
+		// stylelint-disable-next-line at-rule-no-unknown
+		@warn "Breakpoint '#{$breakpoint}' not found in $breakpoints map";
+	}
+}
+
 @mixin respond-between($min, $max) {
 	$min-value: map.get($breakpoints, $min);
 	$max-value: map.get($breakpoints, $max);

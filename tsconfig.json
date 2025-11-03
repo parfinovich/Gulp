@@ -55,12 +55,12 @@
     "resolveJsonModule": true
   },
   "include": [
-    "src/**/*",
-    "gulp/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",
     "dist",
+    "gulp",
     "**/*.d.ts"
   ]
 }

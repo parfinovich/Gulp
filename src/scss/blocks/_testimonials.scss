@@ -4,198 +4,192 @@
 
 .testimonials {
   position: relative;
-  padding: 5rem 0;
+  padding: 3rem 0;
   background-color: #EAEEE2;
-  overflow: hidden; // ИСПРАВЛЕНИЕ: предотвращаем выход контента за пределы
+  overflow: hidden;
 
-  @include respond-down('md') {
+  @include respond-up('md') {
     padding: 4rem 0;
   }
 
-  @include respond-down('sm') {
-    padding: 3rem 0;
+  @include respond-up('lg') {
+    padding: 5rem 0;
   }
 
   &__container {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    column-gap: 52px;
-    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 
-    @include respond-down('lg') {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      align-items: start;
-    }
-
-    @include respond-down('sm') {
-      gap: 2rem;
+    @include respond-up('lg') {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 52px;
+      align-items: center;
     }
   }
 
   &__section-title {
     @include section-title-vertical;
-    margin: 0;
-    justify-self: start;
-    align-self: center;
-
+    
+    // На мобильных делаем горизонтальным как у обычных заголовков
     @include respond-down('lg') {
-      justify-self: center;
-    }
-
-    @include respond-down('md') {
       writing-mode: horizontal-tb;
       transform: none;
+      text-align: center;
+      margin: 0 0 2rem 0;
+      width: 100%;
+      display: flex;
       flex-direction: row;
-      font-size: 2.75rem; // 44px
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
       
       &::before,
       &::after {
-        width: 100px;
+        display: block;
+        width: 60px;
         height: 2px;
-      }
-    }
-
-    @include respond-down('sm') {
-      font-size: 1.875rem; // 30px
-      
-      &::before,
-      &::after {
-        width: 70px;
-        height: 1.5px;
       }
     }
   }
 
   // Контент справа
   &__content {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 3rem 2rem;
+    // MOBILE: обычный поток
+    display: block;
     width: 100%;
-    max-width: 100%;
-    overflow: hidden; // ИСПРАВЛЕНИЕ: предотвращаем выход контента
+    box-sizing: border-box;
 
-    @include respond-down('md') {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
+    @include respond-up('md') {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 2.5rem 2rem;
     }
 
-    @include respond-down('sm') {
-      gap: 2rem;
+    @include respond-up('lg') {
+      gap: 3rem 2rem;
     }
   }
 
   // Вступительный блок
   &__intro {
-    grid-column: 3 / 11;
-    margin-bottom: 4.6875rem; // 75px
+    // MOBILE: обычный поток с ограничениями
+    margin-bottom: 2rem;
+    text-align: center;
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 
-    @include respond-down('md') {
+    @include respond-up('md') {
       grid-column: 1 / -1;
       margin-bottom: 1.5rem;
+      text-align: left;
+      padding: 0;
+    }
+
+    @include respond-up('lg') {
+      grid-column: 3 / 11;
+      margin-bottom: 4.6875rem;
     }
   }
 
   &__heading {
     @include section-heading;
     color: map.get($colors, 'primary-dark');
-    margin: 0 0 1.5rem;
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 
-    @include respond-down('md') {
-      font-size: 2.25rem; // 36px
+    @include respond-up('md') {
+      font-size: 2rem;
       margin-bottom: 1.25rem;
     }
 
-    @include respond-down('sm') {
-      font-size: 1.75rem; // 28px
-      margin-bottom: 1rem;
+    @include respond-up('lg') {
+      font-size: 2.25rem;
+      margin-bottom: 1.5rem;
     }
   }
 
   &__description {
     @include text-body;
-    font-size: 1.125rem;
-    line-height: 1.6;
     color: map.get($colors, 'primary');
     margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 
-    @include respond-down('md') {
-      font-size: 1.0625rem; // 17px
-      line-height: 1.55;
+    @include respond-up('md') {
+      font-size: 1rem;
+      line-height: 1.5;
     }
 
-    @include respond-down('sm') {
-      font-size: 0.9375rem; // 15px
-      line-height: 1.5;
+    @include respond-up('lg') {
+      font-size: 1.125rem;
+      line-height: 1.6;
     }
   }
 
   // Слайдер с отзывами
   &__slider-wrapper {
-    grid-column: 3 / -1;
+    // MOBILE: обычный поток с компенсацией отступов
     position: relative;
     width: 100%;
-    max-width: 100%;
-    overflow: hidden; // ИСПРАВЛЕНИЕ: критически важно для предотвращения выхода слайдов
+    overflow: visible; // Изменено с hidden на visible для отображения стрелок
+    margin: 0 calc(-1 * clamp(16px, 6vw, 20px));
+    width: calc(100% + 2 * clamp(16px, 6vw, 20px));
 
-    @include respond-down('md') {
+    @include respond-up('md') {
+      margin: 0;
+      width: 100%;
       grid-column: 1 / -1;
+    }
+
+    @include respond-up('lg') {
+      grid-column: 3 / -1;
     }
   }
 
   &__slider {
     position: relative;
     width: 100%;
-    max-width: 100%;
     overflow: hidden;
-    padding: 1.5rem 0 2rem 0;
+    
+    // MOBILE: паддинги для контента
+    padding: 1rem clamp(16px, 6vw, 20px) 1.5rem;
 
-    @include respond-down('md') {
+    @include respond-up('md') {
       padding: 1rem 0 1.5rem 0;
     }
 
-    @include respond-down('sm') {
-      padding: 1rem 0 1.5rem 0;
+    @include respond-up('lg') {
+      padding: 1.5rem 0 2rem 0;
     }
 
-    // Swiper обертка
     .swiper-wrapper {
       display: flex;
       align-items: stretch;
     }
 
-    // ИСПРАВЛЕНИЕ: явно задаем ширину слайдов
     .swiper-slide {
       height: auto;
       display: flex;
       flex-shrink: 0;
-      width: 400px !important; // Базовая ширина для десктопа
-      max-width: 400px;
       box-sizing: border-box;
-
-      @include respond-down('lg') {
-        width: 380px !important;
-        max-width: 380px;
-      }
-
-      @include respond-down('md') {
-        width: 90% !important;
-        max-width: 100%;
-      }
-
-      @include respond-down('sm') {
-        width: 100% !important;
-        max-width: 100%;
-      }
+      width: 100%;
+      max-width: 100%;
     }
   }
 
   &__arrow {
     position: absolute;
-    top: -4rem;
-    width: 48px;
-    height: 48px;
     border: none;
     background-color: map.get($colors, 'background');
     border-radius: 50%;
@@ -205,7 +199,14 @@
     cursor: pointer;
     z-index: 10;
     color: map.get($colors, 'primary');
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     @include transition(all, 0.3s, ease);
+
+    // MOBILE - размещаем после intro блока
+    top: auto;
+    bottom: calc(100% - 1rem);
+    width: 40px;
+    height: 40px;
 
     svg {
       width: 24px;
@@ -213,15 +214,12 @@
       @include transition(color, 0.3s, ease);
     }
 
-    // Скрываем стандартные стрелки Swiper
     &::after {
       display: none;
     }
 
     &--prev {
-      right: 6rem;
-      opacity: 0;
-      pointer-events: none;
+      right: 3rem;
     }
 
     &--next {
@@ -245,19 +243,27 @@
       cursor: not-allowed;
     }
 
-    @include respond-down('md') {
-      top: -3rem;
-      width: 40px;
-      height: 40px;
-
+    @include respond-up('md') {
+      top: -3.5rem;
+      bottom: auto;
+      
       &--prev {
         right: 3.5rem;
       }
     }
 
-    @include respond-down('sm') {
+    @include respond-up('lg') {
+      top: -4.5rem;
+      width: 48px;
+      height: 48px;
+
+      svg {
+        width: 28px;
+        height: 28px;
+      }
+
       &--prev {
-        right: 3rem;
+        right: 6rem;
       }
     }
   }
@@ -271,33 +277,34 @@
     pointer-events: none;
     z-index: 0;
 
-    &--left {
-      top: 50%;
-      left: -200px;
-      transform: translateY(-50%);
+    // Скрываем на мобилках и планшетах
+    display: none;
 
-      @include respond-down('lg') {
+    @include respond-up('lg') {
+      display: block;
+
+      &--left {
+        top: 50%;
+        left: -200px;
+        transform: translateY(-50%);
+      }
+
+      &--right {
+        top: 50%;
+        right: -200px;
+        transform: translateY(-50%);
+      }
+    }
+
+    @include respond-up('xl') {
+      &--left {
         left: -120px;
         width: 320px;
       }
 
-      @include respond-down('md') {
-        display: none;
-      }
-    }
-
-    &--right {
-      top: 50%;
-      right: -200px;
-      transform: translateY(-50%);
-
-      @include respond-down('lg') {
+      &--right {
         right: -120px;
         width: 320px;
-      }
-
-      @include respond-down('md') {
-        display: none;
       }
     }
   }
@@ -307,13 +314,9 @@
 .testimonial-card {
   background-color: map.get($colors, 'background');
   border-radius: 16px;
-  padding: 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  min-height: 280px;
-  height: 100%;
-  width: 100%; // ИСПРАВЛЕНИЕ: карточка занимает всю ширину слайда
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   position: relative;
@@ -321,14 +324,20 @@
   @include transition(all, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.08);
 
-  @include respond-down('md') {
+  // MOBILE
+  padding: 1.5rem;
+  min-height: 220px;
+  gap: 1rem;
+
+  @include respond-up('md') {
     padding: 2rem;
     min-height: 260px;
+    gap: 1.5rem;
   }
 
-  @include respond-down('sm') {
-    padding: 1.75rem;
-    min-height: 240px;
+  @include respond-up('lg') {
+    padding: 2.5rem;
+    min-height: 280px;
   }
 
   &::before {
@@ -370,32 +379,29 @@
     @include transition(transform, 0.3s, cubic-bezier(0.4, 0, 0.2, 1));
     position: relative;
     z-index: 1;
-
-    @include respond-down('sm') {
-      width: 40px;
-      height: 40px;
-    }
   }
 
   &__text {
     @include text-body;
     font-weight: map.get($font-weights, 'light');
-    font-size: 1rem;
-    line-height: 1.6;
     color: map.get($colors, 'primary');
     margin: 0;
     flex: 1;
     position: relative;
     z-index: 1;
 
-    @include respond-down('md') {
-      font-size: 0.9375rem; // 15px
+    // MOBILE
+    font-size: 0.875rem;
+    line-height: 1.5;
+
+    @include respond-up('md') {
+      font-size: 0.9375rem;
       line-height: 1.55;
     }
 
-    @include respond-down('sm') {
-      font-size: 0.875rem; // 14px
-      line-height: 1.5;
+    @include respond-up('lg') {
+      font-size: 1rem;
+      line-height: 1.6;
     }
   }
 
@@ -410,30 +416,34 @@
 
   &__name {
     @include heading-product;
-    font-size: 1.125rem;
     color: map.get($colors, 'text');
 
-    @include respond-down('md') {
-      font-size: 1.0625rem; // 17px
+    // MOBILE
+    font-size: 1rem;
+
+    @include respond-up('md') {
+      font-size: 1.0625rem;
     }
 
-    @include respond-down('sm') {
-      font-size: 1rem; // 16px
+    @include respond-up('lg') {
+      font-size: 1.125rem;
     }
   }
 
   &__avatar {
-    width: 56px;
-    height: 56px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
     border: 3px solid rgba(map.get($colors, 'background'), 0.8);
     @include transition(all, 0.3s, cubic-bezier(0.4, 0, 0.2, 1));
 
-    @include respond-down('sm') {
-      width: 48px;
-      height: 48px;
+    // MOBILE
+    width: 48px;
+    height: 48px;
+
+    @include respond-up('md') {
+      width: 56px;
+      height: 56px;
     }
   }
 }

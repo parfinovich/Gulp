@@ -23,6 +23,14 @@
       gap: 3rem;
       align-items: start;
     }
+    
+    @include respond-down('md') {
+      gap: 2rem;
+    }
+    
+    @include respond-down('sm') {
+      gap: 1.5rem;
+    }
   }
 
   // Вертикальный заголовок секции
@@ -34,17 +42,14 @@
 
     @include respond-down('lg') {
       justify-self: center;
-    }
-
-    @include respond-down('md') {
       writing-mode: horizontal-tb;
       transform: none;
       flex-direction: row;
-      font-size: 2.75rem; // 44px
+      font-size: 2.5rem; // 40px - для планшетов
       
       &::before,
       &::after {
-        width: 100px;
+        width: 80px;
         height: 2px;
       }
     }
@@ -65,10 +70,16 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 3rem 2rem;
+    width: 100%;
+    box-sizing: border-box;
 
     @include respond-down('md') {
       grid-template-columns: 1fr;
       gap: 2.5rem;
+    }
+    
+    @include respond-down('sm') {
+      gap: 2rem;
     }
   }
 
@@ -87,8 +98,8 @@
     margin: 0 0 1.5rem;
 
     @include respond-down('md') {
-      font-size: 2.25rem; // 36px
-      margin-bottom: 1.25rem;
+      font-size: 2rem; // 32px - уменьшено для планшетов
+      margin-bottom: 1rem;
     }
 
     @include respond-down('sm') {
@@ -105,8 +116,8 @@
     margin: 0;
 
     @include respond-down('md') {
-      font-size: 1.0625rem; // 17px
-      line-height: 1.55;
+      font-size: 1rem; // 16px - более читаемо на планшетах
+      line-height: 1.5;
     }
 
     @include respond-down('sm') {
@@ -119,14 +130,21 @@
   &__list {
     grid-column: 3 / 11; // Строго под текстом, те же колонки что у intro
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 380px));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 380px));
     gap: 2rem;
     justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
 
     @include respond-down('md') {
       grid-column: 1 / -1;
       grid-template-columns: 1fr;
       gap: 1.5rem;
+    }
+    
+    @include respond-down('sm') {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.25rem;
     }
   }
 
@@ -139,7 +157,8 @@
 // Карточка продукта
 .product-card {
   position: relative;
-  width: 380px;
+  width: 100%;
+  max-width: 380px;
   height: 600px;
   background-color: map.get($colors, 'background'); // Белый фон
   border-radius: 12px;
@@ -147,6 +166,7 @@
   display: flex;
   flex-direction: column;
   z-index: 1;
+  box-sizing: border-box;
   @include transition(all, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
