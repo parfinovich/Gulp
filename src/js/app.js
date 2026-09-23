@@ -1,9 +1,12 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const yearNode = document.querySelector('[data-year]');
+import { initialize } from './core/initialize.js';
+import { initAnchorLinks } from './components/anchor-links.js';
 
-  if (yearNode) {
-    yearNode.textContent = new Date().getFullYear();
-  }
+const start = () => {
+  initialize([initAnchorLinks]);
+};
 
-  console.info('Clean project initialized');
-});
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', start, { once: true });
+} else {
+  start();
+}

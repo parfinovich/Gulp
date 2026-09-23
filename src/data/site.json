@@ -1,0 +1,10 @@
+{
+  "brand": "Brand",
+  "year": 2026,
+  "email": "hello@example.com",
+  "navigation": [
+    { "label": "About", "href": "#about", "slug": "about" },
+    { "label": "Features", "href": "#features", "slug": "features" },
+    { "label": "Contact", "href": "#contact", "slug": "contact" }
+  ]
+}

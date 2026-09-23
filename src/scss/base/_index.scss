@@ -1,1 +1,3 @@
-$base-index-generated: true;
+@forward 'global';
+@forward 'reset';
+@forward 'tokens';

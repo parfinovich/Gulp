@@ -1,0 +1,16 @@
+{% from "components/button.njk" import button %}
+
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <p class="eyebrow">{{ home.hero.eyebrow }}</p>
+      <h1>{{ home.hero.title }}</h1>
+      <p>{{ home.hero.description }}</p>
+      <div class="hero__actions">
+{% for action in home.hero.actions %}
+        {{ button(action) }}
+{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+.site-footer {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  background: rgb(255, 255, 255, 0.7);
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-footer p {
+  color: var(--muted);
+  line-height: 1.7;
+}

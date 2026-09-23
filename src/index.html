@@ -1,82 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Clean starter project" />
-    <title>New Clean Project</title>
-    <link rel="stylesheet" href="./css/style.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="container">
-        <nav class="nav">
-          <a class="brand" href="#">Brand</a>
-          <ul class="nav__list">
-            <li><a href="#about">About</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+{% set page = {
+  title: "New Clean Project",
+  description: "Clean starter project",
+  slug: "home",
+  bodyId: "top"
+} %}
+{% extends "layouts/base.njk" %}
 
-    <main>
-      <section class="hero">
-        <div class="container hero__inner">
-          <div class="hero__content">
-            <p class="eyebrow">Clean starter</p>
-            <h1>Build fast with a fresh frontend setup.</h1>
-            <p>
-              A minimal structure for a new landing page or web app. Ready for
-              your content, styles, and logic.
-            </p>
-            <div class="hero__actions">
-              <a class="button button--primary" href="#features">Explore</a>
-              <a class="button button--ghost" href="#contact">Contact</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="features" class="features">
-        <div class="container">
-          <h2>Features</h2>
-          <div class="features__grid">
-            <article class="card">
-              <h3>Simple</h3>
-              <p>Clean file structure and minimal setup.</p>
-            </article>
-            <article class="card">
-              <h3>Fast</h3>
-              <p>Optimized build pipeline for development and production.</p>
-            </article>
-            <article class="card">
-              <h3>Flexible</h3>
-              <p>Easy to extend for your product or business site.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="about" class="about">
-        <div class="container">
-          <h2>About</h2>
-          <p>
-            This project is a blank canvas. Replace the content, theme, and
-            sections with your own product or brand.
-          </p>
-        </div>
-      </section>
-    </main>
-
-    <footer id="contact" class="site-footer">
-      <div class="container footer__inner">
-        <p>© 2026 Your Brand</p>
-        <a href="mailto:hello@example.com">hello@example.com</a>
-      </div>
-    </footer>
-
-    <script src="./js/app.min.js"></script>
-  </body>
-</html>
+{% block content %}
+{% include "sections/hero.njk" %}
+{% include "sections/features.njk" %}
+{% include "sections/about.njk" %}
+{% endblock %}

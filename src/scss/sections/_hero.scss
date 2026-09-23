@@ -1,0 +1,38 @@
+.hero {
+  padding: 5rem 0 4rem;
+}
+
+.hero__inner {
+  display: grid;
+  place-items: center center;
+  min-height: 420px;
+}
+
+.hero__content {
+  max-width: 720px;
+  text-align: center;
+}
+
+.hero__content p {
+  max-width: 640px;
+  margin: 0 auto 2rem;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}

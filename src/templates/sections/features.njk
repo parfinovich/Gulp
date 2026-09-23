@@ -1,0 +1,12 @@
+{% from "components/feature-card.njk" import featureCard %}
+
+<section id="features" class="features">
+  <div class="container">
+    <h2>{{ home.features.title }}</h2>
+    <div class="features__grid">
+{% for item in home.features.items %}
+        {{ featureCard(item) }}
+{% endfor %}
+    </div>
+  </div>
+</section>

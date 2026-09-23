@@ -1,0 +1,3 @@
+{% macro button(action) -%}
+<a class="button button--{{ action.variant }}" href="{{ action.href }}">{{ action.label }}</a>
+{%- endmacro %}

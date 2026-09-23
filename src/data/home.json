@@ -1,0 +1,23 @@
+{
+  "hero": {
+    "eyebrow": "Clean starter",
+    "title": "Build fast with a fresh frontend setup.",
+    "description": "A minimal structure for a new landing page or web app. Ready for your content, styles, and logic.",
+    "actions": [
+      { "label": "Explore", "href": "#features", "variant": "primary" },
+      { "label": "Contact", "href": "#contact", "variant": "ghost" }
+    ]
+  },
+  "features": {
+    "title": "Features",
+    "items": [
+      { "title": "Simple", "description": "Clean file structure and minimal setup." },
+      { "title": "Fast", "description": "Optimized build pipeline for development and production." },
+      { "title": "Flexible", "description": "Easy to extend for your product or business site." }
+    ]
+  },
+  "about": {
+    "title": "About",
+    "description": "This project is a blank canvas. Replace the content, theme, and sections with your own product or brand."
+  }
+}

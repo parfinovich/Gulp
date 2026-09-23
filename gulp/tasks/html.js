@@ -1,4 +1,4 @@
-import fileinclude from "gulp-file-include";
+import nunjucksRender from "gulp-nunjucks-render";
 import webpHtmlNosvg from "gulp-webp-html-nosvg";
 import replace from "gulp-replace";
 import fsExtra from "fs-extra";
@@ -21,7 +21,15 @@ export const html = () => {
         this.emit('end');
       }
     }))
-    .pipe(fileinclude())
+    .pipe(nunjucksRender({
+      path: ['src/templates'],
+      trimBlocks: true,
+      lstripBlocks: true,
+      data: {
+        site: fsExtra.readJsonSync('src/data/site.json'),
+        home: fsExtra.readJsonSync('src/data/home.json')
+      }
+    }))
     .pipe(app.plugins.replace(/@img\//g, 'img/'))
     .pipe(
       app.plugins.if(

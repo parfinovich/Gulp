@@ -1,0 +1,18 @@
+@media (width <= 640px) {
+  .nav,
+  .footer__inner {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .nav__list {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .hero {
+    padding-top: 4rem;
+  }
+}

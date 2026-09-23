@@ -1,0 +1,11 @@
+body {
+  background: linear-gradient(180deg, #f8f9ff 0%, #eef3ff 100%);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.05;
+}
