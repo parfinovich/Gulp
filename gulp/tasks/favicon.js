@@ -16,6 +16,9 @@ export const generateFavicon = async (done) => {
     return done();
   }
 
+  fs.mkdirSync('dist', { recursive: true });
+  fs.mkdirSync(DEST, { recursive: true });
+
   await deleteAsync(DEST, { force: true });
   log('🧹 dist/favicon очищен');
 
@@ -76,6 +79,11 @@ export const generateFavicon = async (done) => {
 export const injectFaviconMarkups = () => {
   if (!fs.existsSync(FAVICON_DATA_FILE)) {
     log('ℹ️ faviconData.json не найден, вставка фавиконок пропущена.');
+    return Promise.resolve();
+  }
+
+  if (!fs.existsSync('dist')) {
+    log('ℹ️ dist ещё не создан, вставка фавиконок пропущена.');
     return Promise.resolve();
   }
 

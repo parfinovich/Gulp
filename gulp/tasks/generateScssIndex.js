@@ -17,7 +17,11 @@ export const generateScssIndex = () => {
       )
       .map(file => `@forward '${file.slice(1, -5)}';`);
 
-    fs.writeFileSync(indexFile, files.join('\n') + '\n');
+    const indexContent = files.length > 0
+      ? `${files.join('\n')}\n`
+      : '$base-index-generated: true;\n';
+
+    fs.writeFileSync(indexFile, indexContent);
 
     beep();
     log(`✅ Сгенерирован SCSS index: ${indexFile}`);

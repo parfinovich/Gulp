@@ -33,7 +33,7 @@ export const generateRatios = (done) => {
     return aw * ah - bw * bh;
   });
 
-  const scssContent = `// 🔄 Generated automatically from HTML\n` +
+  const scssContent = `// Generated automatically from HTML\n` +
     `$img-ratios: (\n` +
     sorted.map(r => `  ${r},`).join('\n') +
     `\n);\n`;

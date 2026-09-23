@@ -47,7 +47,13 @@ export const images = async () => {
       for (const file of files) {
         const filePath = path.join(srcDir, file);
         const ext = path.extname(file).toLowerCase();
-        
+
+        try {
+          await fs.access(filePath);
+        } catch {
+          continue;
+        }
+
         if (['.jpg', '.jpeg', '.png', '.svg'].includes(ext)) {
           try {
             await imagemin([filePath], {
@@ -58,15 +64,18 @@ export const images = async () => {
                 imageminSvgo({
                   plugins: [
                     { name: 'removeViewBox', active: false },
-                    { name: 'cleanupIDs', active: true }
+                    { name: 'cleanupIds', active: true }
                   ]
                 })
               ]
             });
           } catch (err) {
             log.warn(`⚠️ Could not optimize ${file}:`, err.message);
-            // Copy original file if optimization fails
-            await fs.copyFile(filePath, path.join(buildImages, file));
+            try {
+              await fs.copyFile(filePath, path.join(buildImages, file));
+            } catch {
+              // ignore missing source file during optimization fallback
+            }
           }
         }
       }

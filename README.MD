@@ -1,75 +1,88 @@
-🚀 Gulp 2025 – Frontend Build System
-A modern, customizable Gulp setup for frontend development. Includes SCSS, HTML templating, image optimization, SVG sprite generation, WebP support, FTP/ZIP deployment, and live-reload.
+# 🚀 Gulp 2025 – Frontend Build System
 
-Author: Arsen Parfinovich
-Version: 3.1.0
+A modern Gulp-based frontend build pipeline for HTML, SCSS, JavaScript, images, SVG sprites, favicons, and deployment workflows.
+
+Author: Arsen Parfinovich  
+Version: 3.2.0  
 License: ISC
 
-📦 Installation
+## 🧰 Requirements
+
+- Node.js 20.18.0 or newer
+- npm 10.8.2 or newer
+
+Use nvm if needed:
+
+```bash
+nvm install 20
+nvm use 20
+```
+
+## 📦 Installation
+
+```bash
 npm install
+```
 
-⚙️ Available Scripts
+## ⚙️ Available Scripts
 
-| Command             | Description                                         |
-| ------------------- | --------------------------------------------------- |
-| `npm run dev`       | Start development server with BrowserSync (`dist/`) |
-| `npm run build`     | Build the project for production (`dist/`)          |
-| `npm run zip`       | Build and archive the project as `.zip`             |
-| `npm run deploy`    | Build and deploy via FTP (see `gulp/config/ftp.js`) |
-| `npm run svgSprive` | Generate SVG sprite from icons                      |
-| `npm run preview`   | Preview production build with `browser-sync`        |
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the development workflow with BrowserSync and file watchers |
+| `npm run build` | Production build for `dist/` |
+| `npm run zip` | Build and create a ZIP archive |
+| `npm run deploy` | Build and deploy via FTP |
+| `npm run svgSprive` | Generate SVG sprite from source icons |
+| `npm run preview` | Preview the built project in browser-sync |
+| `npm run lint` | Run SCSS and HTML validation |
+| `npm run clean` | Remove build output |
 
+## ✨ Included Features
 
-🧰 Features
+- SCSS compilation with Autoprefixer and media-query grouping
+- HTML templating with `gulp-file-include`
+- Image optimization and WebP generation
+- SVG sprite generation
+- Responsive image processing
+- Favicon generation and injection
+- Live reload with BrowserSync
+- Deployment via FTP and ZIP
+- Stylelint + HTML validation
+- Webpack bundling for JS
 
-✅ SCSS with Autoprefixer and media query grouping
+## 📁 Project Structure
 
-✅ HTML templating via gulp-file-include
-
-✅ Image optimization + automatic WebP generation
-
-✅ Style and markup validation (Stylelint, HTMLHint)
-
-✅ Error handling via gulp-plumber
-
-✅ JavaScript bundling with Webpack and Babel
-
-✅ SVG sprite generation
-
-✅ Responsive image handling
-
-✅ Custom favicon generation
-
-✅ Live-reload with browser-sync
-
-✅ Deployment via FTP or ZIP
-
-
-📁 Project Structure
+```text
 gulp-2025/
-│
-├── src/           # Source files
-│   ├── html/      # HTML files with includes
-│   ├── scss/      # SCSS modules, variables, mixins
-│   ├── js/        # JavaScript modules
-│   ├── img/       # Raw images
-│   ├── fonts/     # Fonts (used with fontmin)
-│   └── svgicons/  # Icons for SVG sprite
-│
-├── dist/          # Compiled project (auto-generated)
-├── gulp/          # Gulp tasks and config
-│
-└── gulpfile.js    # Main Gulp entry file
+├── src/
+│   ├── html/
+│   ├── scss/
+│   ├── js/
+│   ├── img/
+│   ├── fonts/
+│   └── svgicons/
+├── dist/
+├── gulp/
+│   ├── config/
+│   ├── tasks/
+│   └── tools/
+├── gulpfile.mjs
+├── package.json
+├── README.MD
+├── .nvmrc
+└── faviconData.json
+```
 
-💡 Notes
-Uses type: "module" — ensure Node.js v14+
+## 💡 Notes
 
-FTP credentials should be configured in gulp/config/ftp.js
+- The project uses ESM (`type: "module"`).
+- FTP credentials are read from environment variables in [gulp/config/ftp.js](gulp/config/ftp.js).
+- Favicon settings are configured in the generator task and JSON output.
+- This setup is suitable for landing pages, portfolio sites, and CMS-integrated frontend builds.
 
-Customize favicon settings in gulp/config/favicon.js
+## 🔗 Credits
 
-This setup is ideal for landing pages, HTML templates, or integrating with CMS like WordPress
+This project is maintained by Arsen Parfinovich.  
+Website: https://parfinovich.dev/
 
-🔗 Credits & Contributions
-This is a personal setup built and maintained by Arsen Parfinovich. (https://parfinovich.dev/)
-Feel free to fork, adapt, or contribute!
+Feel free to fork and adapt it for your own build workflows.

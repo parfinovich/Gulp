@@ -1,26 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-    @@include('html/head.html', {
-        "title":"Главная"
-    })
-<body>
-    @@include('html/header.html',{})
-    <main id="main-content" role="main">
-        @@include('html/hero.html',{})
-        @@include('html/about.html',{})
-        @@include('html/products.html',{})
-        @@include('html/testimonials.html',{})
-        @@include('html/faq.html',{})
-        @@include('html/contact.html',{})
-    </main>
-    @@include('html/footer.html',{})
-    @@include('html/modal.html',{})
-    <button class="scroll-top" aria-label="Scroll to top">
-        <svg width="64px" height="64px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <defs> <style>.cls-1{fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}</style> </defs> <title></title> <g id="chevron-top"> <line class="cls-1" x1="16" x2="25" y1="11.5" y2="20.5"></line> <line class="cls-1" x1="7" x2="16" y1="20.5" y2="11.5"></line> </g> </g></svg>
-    </button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Clean starter project" />
+    <title>New Clean Project</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <nav class="nav">
+          <a class="brand" href="#">Brand</a>
+          <ul class="nav__list">
+            <li><a href="#about">About</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <main>
+      <section class="hero">
+        <div class="container hero__inner">
+          <div class="hero__content">
+            <p class="eyebrow">Clean starter</p>
+            <h1>Build fast with a fresh frontend setup.</h1>
+            <p>
+              A minimal structure for a new landing page or web app. Ready for
+              your content, styles, and logic.
+            </p>
+            <div class="hero__actions">
+              <a class="button button--primary" href="#features">Explore</a>
+              <a class="button button--ghost" href="#contact">Contact</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="features">
+        <div class="container">
+          <h2>Features</h2>
+          <div class="features__grid">
+            <article class="card">
+              <h3>Simple</h3>
+              <p>Clean file structure and minimal setup.</p>
+            </article>
+            <article class="card">
+              <h3>Fast</h3>
+              <p>Optimized build pipeline for development and production.</p>
+            </article>
+            <article class="card">
+              <h3>Flexible</h3>
+              <p>Easy to extend for your product or business site.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="about">
+        <div class="container">
+          <h2>About</h2>
+          <p>
+            This project is a blank canvas. Replace the content, theme, and
+            sections with your own product or brand.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact" class="site-footer">
+      <div class="container footer__inner">
+        <p>© 2026 Your Brand</p>
+        <a href="mailto:hello@example.com">hello@example.com</a>
+      </div>
+    </footer>
+
     <script src="./js/app.min.js"></script>
-</body>
+  </body>
 </html>
